@@ -1,15 +1,14 @@
 package com.ducut.barbershop.controllers;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class ProductsController {
+public class ReviewsController {
 
-    @GetMapping("/products")
-    public String products(Model model) {
-        return "products-main";
-    }
+    @GetMapping("/reviews")
+        public String reviews(Model model){
+            return "reviews-main";
+        }
 }
