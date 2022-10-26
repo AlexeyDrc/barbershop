@@ -17,6 +17,17 @@ public class Masters {
     private String FIO, photoURL;
     private double rate;
 
+    private int numberOfRatings;
+
+
+    public int getNumberOfRatings() {
+        return numberOfRatings;
+    }
+
+    public void setNumberOfRatings(int numberOfRatings) {
+        this.numberOfRatings = numberOfRatings;
+    }
+
     public String getPhotoURL() {
         return photoURL;
     }
@@ -48,4 +59,5 @@ public class Masters {
     public void setRate(double rate) {
         this.rate = rate;
     }
+
 }

@@ -8,7 +8,7 @@
 </head>
 <body>
 <header th:insert="blocks/header :: header"></header>
-    <main>
+   <!-- <main>
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
@@ -41,12 +41,17 @@
                             <img th:src = "${el.photoURL}"width="100%" height="225">
                             <div class="card-body">
                                 <p class="card-text" th:text = "${el.FIO}"></p>
-                                <p class="card-text" th:text = " 'Рейтинг ' + ${el.rate}"></p>
+                                <p class="card-text" th:text = " 'Рейтинг ' + ${el.rate} + '/5.0'"></p>
+                                <form action="/work">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Посмотреть этого мастера</button>
-                                    </div>
+                                        <button class="btn btn-outline-info" type="submit" href = "/work">Записаться</button>
                                 </div>
+                                </form>
+                                <form action="/work">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <button class="btn btn-outline-info" type="submit">Подробнее</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -55,6 +60,47 @@
             </div>
         </div>
     </div>
-    </main>
+    </main>-->
+
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Наши мастера!<!doctype html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport"
+                          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+                    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                    <title>Document</title>
+                </head>
+                <body>
+
+                </body>
+                </html></h1>
+            <p class="lead text-muted">Здесь представлены все мастера, которые работают в нашем барбершопе! Каждый из них - настоящий профессионал своего дела</p>
+        </div>
+    </div>
+</section>
+
+<div class="container mt-0" >
+    <div class="album py-0 bg-light">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                <div th:each="el : ${masters}">
+        <div class="card">
+            <img class="card-img-top" th:src = "${el.photoURL}" alt="Card image cap">
+            <div class="card-body">
+                <h4 class="card-title" th:text = "${el.FIO}" ></h4>
+                <p class="card-text"  th:text = " 'Рейтинг ' + ${el.rate} + '/5.0'" ></p>
+                <a href="#!" class="btn btn-primary">Записаться к этому мастеру</a>
+
+            </div>
+        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     </body>
 </html>
