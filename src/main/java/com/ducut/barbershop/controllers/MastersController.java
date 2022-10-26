@@ -19,4 +19,11 @@ public class MastersController {
         model.addAttribute("masters", masters);
         return "masters-main";
     }
+
+    @GetMapping("/orders")
+    public String orders(Model model) {
+        Iterable<Masters> masters = mastersRepository.findAll();
+        model.addAttribute("masters", masters);
+        return "orders-main";
+    }
 }

@@ -14,8 +14,16 @@ public class Masters {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String FIO;
+    private String FIO, photoURL;
     private double rate;
+
+    public String getPhotoURL() {
+        return photoURL;
+    }
+
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
+    }
 
     public Long getId() {
         return id;

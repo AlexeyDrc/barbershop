@@ -17,9 +17,6 @@
         <h6 th:text = "'К оплате ' + ${el.price} + ' BYN'"/>
         <a th:href=" '/orders/' + ${el.id}" class="btn btn-light">Детальнее</a>
     </div>
-    <div th:each="elM : ${masters}" class="alert alert-info mt-3">
-        <h3 th:text = "'Мастер ' + ${elM.FIO}"/>
-    </div>
 </div>
 </body>
 </html>
