@@ -20,10 +20,4 @@ public class MastersController {
         return "masters-main";
     }
 
-    @GetMapping("/orders")
-    public String orders(Model model) {
-        Iterable<Masters> masters = mastersRepository.findAll();
-        model.addAttribute("masters", masters);
-        return "orders-main";
-    }
 }
