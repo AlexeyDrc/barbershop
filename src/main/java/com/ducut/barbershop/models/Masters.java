@@ -17,15 +17,14 @@ public class Masters {
     private String FIO, photoURL;
     private double rate;
 
-    private int numberOfRatings;
+    private int numberofratings;
 
-
-    public int getNumberOfRatings() {
-        return numberOfRatings;
+    public int getNumberofratings() {
+        return numberofratings;
     }
 
-    public void setNumberOfRatings(int numberOfRatings) {
-        this.numberOfRatings = numberOfRatings;
+    public void setNumberofratings(int numberofratings) {
+        this.numberofratings = numberofratings;
     }
 
     public String getPhotoURL() {

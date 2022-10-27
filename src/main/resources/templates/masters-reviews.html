@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Мастера</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+
+</head>
+<body th:each = "el : ${master}">
+<header th:insert="blocks/header :: header"></header>
+
+<section class="py-5 text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">Отзывы<!doctype html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport"
+                content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          <meta http-equiv="X-UA-Compatible" content="ie=edge">
+          <title>Document</title>
+        </head>
+        <body>
+
+        </body>
+        </html></h1>
+      <p class="lead text-muted" th:text = "${el.FIO}"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container mt-5">
+  <div class = "row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    <div th:each = "elR : ${masRev}" th:if="${elR.masterId} == ${el.id}" class = "alert alert-secondary mt-2">
+      <div class="card" >
+        <div class="card-body">
+          <h5 class="card-title"  th:text = "${elR.description}" ></h5>
+          <p class="card-text"  th:text = " 'Оценка ' + ${elR.rate} + '/5.0'" ></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<div class="container mt-5">
+  <div class = "row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+  <div th:each = "elR : ${masterReviews}" class="alert alert-secondary mt-2">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title" th:text = "${elR.description}" ></h5>
+        <p class="card-text"  th:text = " 'Рейтинг ' + ${elR.rate} + '/5.0'" ></p>
+       </div>
+  </div>
+</div>
+  </div>
+</div>-->
+</body>
+</html>
