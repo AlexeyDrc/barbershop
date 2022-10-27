@@ -20,7 +20,7 @@ public class rateCalculating {
 
     public static int getRate()
     {
-        String quary = "select count(*) from masters";
+        String quary = "select count(*) from masters_reviews";
 
         try{
 

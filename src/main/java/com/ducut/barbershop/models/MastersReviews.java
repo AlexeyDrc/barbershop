@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.sql.Date;
 
 @Entity
 public class MastersReviews {
@@ -12,7 +13,9 @@ public class MastersReviews {
     private Long id;
 
     private long masterId;
-    private String description;
+    private String description, name;
+
+    private Date date;
     private double rate;
 
 
@@ -22,6 +25,21 @@ public class MastersReviews {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public long getMasterId() {

@@ -29,6 +29,10 @@ public class MastersController {
         model.addAttribute("rate", rate);*/
         Iterable<Masters> masters = mastersRepository.findAll();
         model.addAttribute("masters", masters);
+
+        Iterable<MastersReviews> mastersReviews = mastersReviewsRepository.findAll();
+        model.addAttribute("masRev", mastersReviews);
+
         return "masters-main";
     }
 
@@ -43,11 +47,6 @@ public class MastersController {
 
       Iterable<MastersReviews> mastersReviews = mastersReviewsRepository.findAll();
       model.addAttribute("masRev", mastersReviews);
-
-      /*Optional<MastersReviews> mastersReviews = mastersReviewsRepository.findById(id);
-      ArrayList<MastersReviews> res1 = new ArrayList<>();
-      mastersReviews.ifPresent(res1::add);
-      model.addAttribute("masterReviews", res1);*/
 
       return "masters-reviews";
   }
