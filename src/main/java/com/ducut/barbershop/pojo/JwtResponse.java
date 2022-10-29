@@ -1,7 +1,5 @@
 package com.ducut.barbershop.pojo;
 
-import com.ducut.barbershop.models.Auth.Role;
-
 import java.util.List;
 
 public class JwtResponse {
@@ -11,7 +9,7 @@ public class JwtResponse {
     private Long id;
     private String username;
     private String phoneNumber;
-    private List<Role> roles;
+    private List<String> roles;
 
     public JwtResponse(String token, Long id, String username, String phoneNumber, List<String> roles) {
         this.token = token;
@@ -61,11 +59,11 @@ public class JwtResponse {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<Role> getRoles() {
+    public List<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(List<String> roles) {
         this.roles = roles;
     }
 }
