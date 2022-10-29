@@ -1,7 +1,6 @@
 package com.ducut.barbershop.controllers;
 
 import com.ducut.barbershop.models.Masters;
-import com.ducut.barbershop.Test.rateCalculating;
 import com.ducut.barbershop.models.MastersReviews;
 import com.ducut.barbershop.repos.MastersRepository;
 import com.ducut.barbershop.repos.MastersReviewsRepository;
@@ -25,8 +24,6 @@ public class MastersController {
 
     @GetMapping("/masters")
     public String masters(Model model) {
-    /*    int rate = rateCalculating.getRate();
-        model.addAttribute("rate", rate);*/
         Iterable<Masters> masters = mastersRepository.findAll();
         model.addAttribute("masters", masters);
 
