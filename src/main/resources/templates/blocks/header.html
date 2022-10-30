@@ -5,32 +5,33 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0 ">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Главная</a>
                     </li>
-                    <li class="nav-item">
+                   <!-- <li class="nav-item">
                         <a class="nav-link" href="/services">Услуги и цены</a>
-                    </li>
+                    </li>-->
                    <!-- <li class="nav-item">
                         <a class="nav-link" href="/products">Продукция</a>
                     </li>-->
                     <li class="nav-item">
                         <a class="nav-link" href="/masters">Мастера</a>
                     </li>
-                    <li class="nav-item">
+                   <!-- <li class="nav-item">
                         <a class="nav-link" href="/about">Портфолио</a>
-                    </li>
+                    </li>-->
                     <!--<li class="nav-item">
                         <a class="nav-link" href="/work">Работа у нас</a>
                     </li>-->
                 </ul>
-                <form action="/orders">
-                  <button class="btn btn-outline-success    " type="submit" href="/orders" >Сделать заказ</button>
+                <form action="/orders/add">
+                  <button class="btn btn-outline-success    " type="submit"  >Сделать заказ</button>
                 </form>
-                <form action="/profile">
-                    <button class="btn btn-outline-light" type="submit" href="/orders" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-person-fill" viewBox="0 0 16 16">
+                <form action="/orders">
+                    <button class="btn btn-outline-light" type="submit" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-person-fill" viewBox="0 0 16 16">
                         <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-1 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm-3 4c2.623 0 4.146.826 5 1.755V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1.245C3.854 11.825 5.377 11 8 11z"/>
                     </svg></button>
                 </form>

@@ -1,7 +1,5 @@
 package com.ducut.barbershop.models;
 
-import org.springframework.web.bind.annotation.GetMapping;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +18,16 @@ public class Orders {
     private Long serviceTypeId;
     private Long customerId, masterId;
 
+    public Orders() {
+    }
+
+    public Orders(Long id, String date, Long serviceTypeId, Long customerId, Long masterId) {
+        this.id = id;
+        this.date = date;
+        this.serviceTypeId = serviceTypeId;
+        this.customerId = customerId;
+        this.masterId = masterId;
+    }
 
     public Long getId() {
         return id;
@@ -59,4 +67,5 @@ public class Orders {
     public void setMasterId(Long masterId) {
         this.masterId = masterId;
     }
+
 }
