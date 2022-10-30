@@ -1,3 +1,4 @@
+/*
 package com.ducut.barbershop.config;
 
 import com.ducut.barbershop.config.jwt.AuthEntryPointJwt;
@@ -64,3 +65,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
+*/

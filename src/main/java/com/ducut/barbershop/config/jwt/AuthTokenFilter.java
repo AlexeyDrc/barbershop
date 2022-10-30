@@ -1,3 +1,4 @@
+/*
 package com.ducut.barbershop.config.jwt;
 
  import com.ducut.barbershop.models.Auth.UserDetailsServiceImpl;
@@ -56,3 +57,4 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.ducut.barbershop.controllers.Auth;
 
 
@@ -126,3 +127,4 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User CREATED"));
     }
 }
+*/

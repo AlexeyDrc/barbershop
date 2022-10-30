@@ -14,8 +14,10 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double price;
-    private String date, serviceType;
+    private String date;
+
+
+    private Long serviceTypeId;
     private Long customerId, masterId;
 
 
@@ -27,28 +29,19 @@ public class Orders {
         this.id = id;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
     public String getDate() {
         return date;
     }
 
-    public double getPrice() {
-        return price;
+    public Long getServiceTypeId() {
+        return serviceTypeId;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getServiceType() {
-        return serviceType;
-    }
-
-    public void setServiceType(String serviceType) {
-        this.serviceType = serviceType;
+    public void setServiceTypeId(Long serviceTypeId) {
+        this.serviceTypeId = serviceTypeId;
     }
 
     public Long getCustomerId() {

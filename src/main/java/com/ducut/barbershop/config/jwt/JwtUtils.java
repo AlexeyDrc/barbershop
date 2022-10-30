@@ -1,3 +1,4 @@
+/*
 package com.ducut.barbershop.config.jwt;
 
 
@@ -46,3 +47,4 @@ public class JwtUtils {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwt).getBody().getSubject();
     }
 }
+*/

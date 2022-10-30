@@ -1,3 +1,4 @@
+/*
 package com.ducut.barbershop.models.Auth;
 
 import com.ducut.barbershop.repos.UserRepository;
@@ -22,3 +23,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return UserDetailsImpl.build(user);
     }
 }
+*/
