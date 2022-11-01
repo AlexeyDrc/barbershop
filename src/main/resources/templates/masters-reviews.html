@@ -32,8 +32,8 @@
     </div>
 </section>
 
-<div class="container mt-5">
-    <div th:each="elR : ${masRev}" th:if="${elR.masterId} == ${el.id}" class="alert alert-secondary mt-2">
+<div class="container">
+    <div th:each="elR : ${masRev}" th:if="${elR.masterId} == ${el.id}" class="alert alert-secondary">
         <div class="card">
             <div class="card-body">
                 <p class="text-black-50" th:text="${elR.date}"></p>
@@ -48,7 +48,9 @@
         </div>
     </div>
 </div>
-</div>
+<p class="py-5 text-center container">
+    <a th:href="'/reviews/add/' + ${el.id}" class="btn btn-primary my-2">Добавить отзыв</a>
+</p>
 
 <!--<div class="container mt-5">
   <div class = "row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">

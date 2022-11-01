@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -24,6 +26,7 @@ public class MastersController {
 
     @GetMapping("/masters")
     public String masters(Model model) {
+
         Iterable<Masters> masters = mastersRepository.findAll();
         model.addAttribute("masters", masters);
 
@@ -32,6 +35,7 @@ public class MastersController {
 
         return "masters-main";
     }
+
 
 
   @GetMapping("/masters/{id}")
