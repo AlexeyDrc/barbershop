@@ -34,16 +34,17 @@ public class MastersReviewsController {
         ArrayList<Masters> res = new ArrayList<>();
         master.ifPresent(res::add);
         model.addAttribute("master", res);
+        model.addAttribute("masterId", String.valueOf(id));
         return "masters-reviews-add";
     }
 
-    @PostMapping("/reviews/add")
-    public String ordersAdd(@RequestParam String name, @RequestParam String description, @RequestParam Number rate, Model model){
+    @PostMapping("/reviews/add/{id}")
+    public String ordersAdd(@PathVariable(value = "id") long id,@RequestParam String name, @RequestParam String description, @RequestParam Number rate, Model model){
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
 
-        MastersReviews.addReview(2,description,rate,name, java.sql.Date.valueOf(sdf.format(date)));
+        MastersReviews.addReview(id,description,rate,name, java.sql.Date.valueOf(sdf.format(date)));
 
         return "redirect:/masters";
     }

@@ -68,6 +68,8 @@ public class MastersReviews {
         this.rate = rate;
     }
 
+
+
     public static void addReview(Number master_id, String description, Number rate, String name, Date date) {
         try {
             String url = "jdbc:mysql://127.0.0.1:3308/orders_database";

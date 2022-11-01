@@ -1,0 +1,117 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-size: border-box;
+}
+
+html,body {
+    display: grid;
+    height: 50%;
+    place-items: center;
+    text-align: center;
+    }
+
+.container{
+    width: 500px;
+    padding: 20px, 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.container .star-widget input{
+    display: none;
+}
+
+.star-widget label{
+font-size: 40px;
+color: #444;
+padding: 10px;
+float: right;
+transition: all 0.2s ease;
+}
+
+input:not(:checked) ~ label:hover,
+input:not(:checked) ~ label:hover ~ label{
+color: #fd4;
+}
+
+input:checked ~ label{
+color: #fd4;
+}
+
+input#rate-5:checked ~ label{
+color: #fe7;
+text-shadow: 0 0 18px #952;
+}
+
+input#rate-1:checked ~ header:before{
+    content: "Это было ужасно!";
+    color: #ad0000;
+}
+
+input#rate-2:checked ~ header:before{
+    content: "Это было плохо!";
+    color: #db5b00;
+}
+
+input#rate-3:checked ~ header:before{
+    content: "Нормально";
+      color: #eba800;
+}
+
+input#rate-4:checked ~ header:before{
+    content: "Мне всё понравилось!";
+      color: #299c00;
+}
+
+input#rate-5:checked ~ header:before{
+    content: "Я просто в восторге!!!";
+      color: #04e000;
+}
+
+form header{
+    width:100%;
+    font-size: 25px;
+    font-weight: 500;
+    margin: 5px 0 20px 0;
+    text-align: center;
+    transition all 0.2 ease;
+}
+form .textarea{
+    height: 100px;
+    width:100%;
+    overflow: hidden;
+}
+
+form .textarea textarea{
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: 1px solid #333;
+    padding: 10px;
+    font-size: 17px;
+    resize: none;
+}
+
+form .btn{
+     height: 45px;
+     width: 100%;
+     margin: 15px 0;
+}
+
+form .btn button{
+     height: 100%;
+     width: 100%;
+     border: 1px solid #444;
+     color: #999;
+     font-size: 17px;
+     text-transform: uppercase;
+     cursor: pointer;
+     transition: all 0.3s ease;
+}
+
+form .btn button:hover{
+    background: #1b1b1b;
+}
