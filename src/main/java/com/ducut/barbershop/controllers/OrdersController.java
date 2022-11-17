@@ -1,10 +1,7 @@
 package com.ducut.barbershop.controllers;
 
+import com.ducut.barbershop.models.*;
 import com.ducut.barbershop.models.Auth.User;
-import com.ducut.barbershop.models.Customer;
-import com.ducut.barbershop.models.Masters;
-import com.ducut.barbershop.models.Orders;
-import com.ducut.barbershop.models.Service;
 import com.ducut.barbershop.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -33,6 +31,8 @@ public class OrdersController {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private TimesRepository timesRepository;
 
     @GetMapping("/orders")
     public String orders(Model model) {
@@ -47,6 +47,9 @@ public class OrdersController {
 
         Iterable<Customer> customers = customerRepository.findAll();
         model.addAttribute("customers", customers);
+
+        Iterable<Times> times = timesRepository.findAll();
+        model.addAttribute("times", times);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
@@ -73,6 +76,9 @@ public class OrdersController {
 
         Iterable<Masters> masters = mastersRepository.findAll();;
         model.addAttribute("masters", masters);
+
+        Iterable<Times> times = timesRepository.findAll();
+        model.addAttribute("times", times);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();

@@ -14,20 +14,24 @@
     <div th:each="el : ${orders}">
         <div>
             <div th:each="elS : ${services}" th:if="${elS.id} == ${el.serviceTypeId}">
-                <div th:each="elU : ${user}" th:if="${elU.id} == ${el.customerId}">
-                    <div th:if="${el.date} == ${currentDate}"  class="alert alert-dark mt-3">
-                        <h6>Запись на сегодня</h6>
-                        <h3 th:text="'Услуга: ' + ${elS.service_name}"/>
-                        <h6 th:text="'К оплате: ' + ${elS.service_price} + ' BYN'"/>
-                        <h6 th:text="'Связь с клиентом: ' + ${elU.phoneNumber}"/><!--
+                <div th:each="elTime : ${times}" th:if="${elTime.id} == ${el.time}">
+                    <div th:each="elU : ${user}" th:if="${elU.id} == ${el.customerId}">
+                        <div th:if="${el.date} == ${currentDate}" class="alert alert-dark mt-3">
+                            <h6>Запись на сегодня</h6>
+                            <h3 th:text="'Услуга: ' + ${elS.service_name}"/>
+                            <h6 th:text="'Время: ' + ${elTime.time}"/>
+                            <h6 th:text="'К оплате: ' + ${elS.service_price} + ' BYN'"/>
+                            <h6 th:text="'Связь с клиентом: ' + ${elU.phoneNumber}"/><!--
                 <a th:href=" '/orders/' + ${el.id}" class="btn btn-light">Детальнее</a>-->
-                    </div>
-                    <div th:if="${el.date} > ${currentDate}"  class="alert alert-light mt-3">
-                        <h6 th:text="'Запись на: ' + ${el.date}"/>
-                        <h3 th:text="'Услуга: ' + ${elS.service_name}"/>
-                        <h6 th:text="'К оплате: ' + ${elS.service_price} + ' BYN'"/>
-                        <h6 th:text="'Связь с клиентом: ' + ${elU.phoneNumber}"/><!--
+                        </div>
+                        <div th:if="${el.date} > ${currentDate}" class="alert alert-light mt-3">
+                            <h6 th:text="'Запись на: ' + ${el.date} " />
+                            <h3 th:text="'Услуга: ' + ${elS.service_name}"/>
+                            <h6 th:text="'Время: ' + ${elTime.time}"/>
+                            <h6 th:text="'К оплате: ' + ${elS.service_price} + ' BYN'"/>
+                            <h6 th:text="'Связь с клиентом: ' + ${elU.phoneNumber}"/><!--
                 <a th:href=" '/orders/' + ${el.id}" class="btn btn-light">Детальнее</a>-->
+                        </div>
                     </div>
                 </div>
             </div>

@@ -17,7 +17,7 @@ public class Orders {
     private Long id;
 
     private String date;
-
+    private String time;
 
     private Long serviceTypeId;
     private Long customerId, masterId;
@@ -25,9 +25,10 @@ public class Orders {
     public Orders() {
     }
 
-    public Orders(Long id, String date, Long serviceTypeId, Long customerId, Long masterId) {
+    public Orders(Long id, String date, String time, Long serviceTypeId, Long customerId, Long masterId) {
         this.id = id;
         this.date = date;
+        this.time = time;
         this.serviceTypeId = serviceTypeId;
         this.customerId = customerId;
         this.masterId = masterId;
@@ -49,6 +50,13 @@ public class Orders {
         return date;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
     public Long getServiceTypeId() {
         return serviceTypeId;
     }
