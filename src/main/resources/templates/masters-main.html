@@ -48,7 +48,7 @@
                         <div class="card-body">
                             <h4 class="card-title" th:text="${el.FIO}"></h4>
                             <p class="card-text" th:text=" 'Рейтинг ' + ${el.rate} + '/5.0'"></p>
-                            <a href="#!" class="btn btn-primary">Записаться к этому мастеру</a><br>
+                            <a th:href="'/orders/add/details/' + ${el.id}" class="btn btn-primary">Записаться к этому мастеру</a><br>
                             <a th:if="${el.numberofratings} > 0" th:href="'/masters/' + ${el.id}"
                                class="btn btn-outline-secondary btn-sm active mt-1"
                                th:text=" 'Посмотреть отзывы (' + ${el.numberofratings} + ')'"></a>

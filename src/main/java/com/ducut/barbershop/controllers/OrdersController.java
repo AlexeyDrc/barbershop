@@ -7,12 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.Time;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 @Controller
 public class OrdersController {
@@ -33,6 +38,12 @@ public class OrdersController {
 
     @Autowired
     private TimesRepository timesRepository;
+
+    private java.sql.Date saveDate;
+    private Number saveService;
+    private Long idMaster;
+
+
 
     @GetMapping("/orders")
     public String orders(Model model) {
@@ -88,12 +99,213 @@ public class OrdersController {
         return "orders-add";
     }
 
-    @PostMapping("/orders/add")
+    /*@PostMapping("/orders/add")
     public String ordersAdd(@RequestParam Number idUser, @RequestParam java.sql.Date date, @RequestParam Number idMaster, @RequestParam Number idService, Model model){
-        Orders.addRow(idUser, idMaster, date, idService);
+        *//*Orders.addRow(idUser, idMaster, date, idService);*//*
+
 
         return "redirect:/orders";
+    }*/
+    @GetMapping("/orders/add/details")
+    public String ordersAddDetails(Model model) {
+
+        Iterable<Orders> orders = ordersRepository.findByDateASC();
+        model.addAttribute("orders", orders);
+
+        Iterable<Service> services = serviceRepository.findAll();
+        model.addAttribute("services", services);
+
+        Iterable<User> user = userRepository.findAll();
+        model.addAttribute("user", user);
+
+        Iterable<Masters> masters = mastersRepository.findAll();;
+        model.addAttribute("masters", masters);
+
+        Iterable<Times> times = timesRepository.findAll();
+        model.addAttribute("times", times);
+
+        /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+*/
+
+
+        model.addAttribute("saveDate", saveDate);
+
+        return "orders-add-details";
     }
 
-    /*@RequestParam Number id, */
+    /*@PostMapping("/orders/add")
+    public String ordersAdd(@RequestParam java.sql.Date date, @RequestParam Number idService, Model model){
+        *//*Orders.addRow(idUser, idMaster, date, idService);*//*
+
+        saveDate = date;
+        saveService = idService;
+
+        return "redirect:/orders/add/details";
+    }*/
+    @GetMapping("/orders/add/details/{id}")
+    public String orderAddDetails(@PathVariable(value = "id") long id, Model model)
+    {
+        Optional<Masters> master = mastersRepository.findById(id);
+        ArrayList<Masters> res = new ArrayList<>();
+        master.ifPresent(res::add);
+        model.addAttribute("master", res);
+        model.addAttribute("masterId", String.valueOf(id));
+
+        ArrayList freeTime = new ArrayList<>();
+        freeTime = getMasterFreeTime(id, saveDate);
+        model.addAttribute("freeTime", freeTime);
+
+        Iterable<Service> services = serviceRepository.findAll();
+        model.addAttribute("services", services);
+
+        model.addAttribute("idMaster", String.valueOf(id));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentDate = new Date();
+
+        model.addAttribute("minDate", sdf.format(currentDate));
+
+        long addTime = currentDate.getTime()+14*24*60*60*1000;
+        Date maxDate = new Date(addTime);
+
+        model.addAttribute("maxDate", sdf.format(maxDate));
+
+        return "orders-add-details";
+    }
+
+    @PostMapping("/orders/add/details/{id}")
+    public String ordersAdd(@RequestParam java.sql.Date date, @RequestParam Number idService, @PathVariable(value = "id") long id, Model model) {
+
+        saveDate = date;
+        saveService = idService;
+        idMaster = id;
+
+        return "redirect:/orders/add/time";
+    }
+
+    @GetMapping("/orders/add/time")
+    public String orderAddTime(Model model)
+    {
+        model.addAttribute("dateTest", String.valueOf(saveDate));
+
+        Optional<Masters> master = mastersRepository.findById(idMaster);
+        ArrayList<Masters> res = new ArrayList<>();
+        master.ifPresent(res::add);
+        model.addAttribute("master", res);
+        model.addAttribute("masterId", String.valueOf(idMaster));
+
+        ArrayList freeTime = new ArrayList<>();
+        freeTime = getMasterFreeTime(idMaster,saveDate);
+        model.addAttribute("freeTime", freeTime);
+
+        Iterable<Service> services = serviceRepository.findAll();
+        model.addAttribute("services", services);
+
+        Iterable<Times> times = timesRepository.findAll();
+        model.addAttribute("times", times);
+
+        return "orders-add-time";
+    }
+
+    @PostMapping("/orders/add/time")
+    public String ordersAddRes(@RequestParam Number idUser, @RequestParam Number selectedTimeString, Model model) {
+
+        addRow(idUser, idMaster, saveDate, saveService, selectedTimeString);
+
+        return "redirect:/masters";
+    }
+
+    private ArrayList getMasterFreeTime(long id, java.sql.Date saveDate){
+
+        Iterable<Orders> orders = ordersRepository.findAll();
+        Iterable<Times> times = timesRepository.findAll();
+
+        ArrayList freeTime = new ArrayList<>();
+
+        for (Times time : times)
+        {
+            freeTime.add(time.getId());
+        }
+
+        for (Orders order: orders) {
+            if(order.getMasterId() == id) {
+                if (order.getDate().equals(saveDate)) {
+                    for (Times time : times) {
+                        if (order.getTime() == time.getId()) {
+                            freeTime.remove(time.getId());
+                        }
+                    }
+                }
+            }
+        }
+
+        return freeTime;
+
+    }
+
+    private long getSelectedTimeId(String selectedTimeString)
+    {
+        Iterable<Times> times = timesRepository.findAll();
+
+        long id = 0;
+
+        for (Times time : times) {
+            if (selectedTimeString == toString()) {
+                id = time.getId();
+            }
+        }
+
+        return id;
+    }
+
+
+    private static void addRow(Number customer_id, Number master_id, java.sql.Date date, Number service_type_id, Number time_id) {
+
+        Orders o = new Orders();
+
+        try {
+            String url = "jdbc:mysql://127.0.0.1:3308/orders_database";
+            String username = "root";
+            String password = "";
+            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+
+            /* SELECT MAX(`id`) FROM `orders`;*/
+
+            ResultSet rs;
+            int lastId = 0;
+            try (Connection conn = DriverManager.getConnection(url, username, password)) {
+                Statement statement = conn.createStatement();
+                rs = statement.executeQuery("SELECT MAX(`id`) FROM `orders`");
+
+                if(rs.next())
+                {
+                    lastId = rs.getInt(1);
+                    lastId++;
+                }
+              /*  lastId = statement.executeQuery("SELECT MAX(`id`) FROM `orders`");
+                lastId++;*/
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            try (Connection conn = DriverManager.getConnection(url, username, password)) {
+                Statement statement = conn.createStatement();
+                int rows = statement.executeUpdate("INSERT INTO `orders` (`id` , `customer_id`, `master_id`, `date`, `service_type_id`, `time`) VALUES ('"+ lastId +"','"+customer_id+"', '"+master_id+"', '"+date+"', '"+service_type_id+"', '"+time_id+"')");
+                System.out.printf("Added %d rows", rows);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

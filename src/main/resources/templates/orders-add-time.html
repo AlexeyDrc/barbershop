@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Создание заказа</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+
+
+<div class="container">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+          crossorigin="anonymous"></script>
+  <main>
+    <div class="py-5 text-center">
+      <h2 class="mt-5">Форма записи</h2>
+      <div class="card-title" th:text="${dateTest}"></div>
+      <p class="lead">Вам надо будет указать выбрать мастера, время и услугу.</p>
+    </div>
+
+    <div class="container mt-5 mb-5">
+      <form action="/orders/add/time" method="POST">
+
+
+        <input type="number" name="idUser" placeholder="id Юзера" class="form-control" required><br>
+
+
+        <!--<select id="mastersSelect" type="number" name="idMaster" class="btn btn-outline-secondary dropdown-toggle"
+                required>
+            <option selected hidden value="">Мастер</option>
+            <div th:each="elM : ${masters}">
+                <option class="dropdown-item" th:text="${elM.FIO}" th:attr="value = ${elM.id}"></option>
+            </div>
+        </select><br>-->
+
+        <div class="container mt-0">
+          <div class="album py-0 bg-light">
+            <div class="container">
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                <div th:each="el : ${master}">
+                  <div class="card">
+                    <img class="card-img-top" th:src="${el.photoURL}" alt="Card image cap">
+                    <div class="card-body">
+                      <h4 class="card-title" th:text="${el.FIO}"></h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <select  type="number" name="selectedTimeString" class="btn btn-outline-secondary dropdown-toggle" required>
+        <option selected hidden value="">Время</option>
+        <div th:each="elFreeTime : ${freeTime}">
+          <option class="dropdown-item" th:each="elTimes : ${times}" th:if="${elTimes.id} == ${elFreeTime}" th:text="${elTimes.time}" th:value="${elTimes.id}"></option>
+        </div>
+        </select>
+        <br>
+
+        <button type="submit"  class="btn btn-primary">Далее</button>
+      </form>
+    </div>
+  </main>
+</div>
+</body>
+</html>

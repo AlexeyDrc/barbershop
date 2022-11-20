@@ -16,8 +16,10 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String date;
-    private String time;
+
+
+    private Date date;
+    private int time;
 
     private Long serviceTypeId;
     private Long customerId, masterId;
@@ -25,7 +27,7 @@ public class Orders {
     public Orders() {
     }
 
-    public Orders(Long id, String date, String time, Long serviceTypeId, Long customerId, Long masterId) {
+    public Orders(Long id, Date date, int time, Long serviceTypeId, Long customerId, Long masterId) {
         this.id = id;
         this.date = date;
         this.time = time;
@@ -42,19 +44,18 @@ public class Orders {
         this.id = id;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public String getTime() {
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    public int getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(int time) {
         this.time = time;
     }
     public Long getServiceTypeId() {
@@ -82,52 +83,4 @@ public class Orders {
     }
 
 
-   public static void addRow(Number customer_id, Number master_id, Date date, Number service_type_id) {
-
-        Orders o = new Orders();
-
-        try {
-            String url = "jdbc:mysql://127.0.0.1:3308/orders_database";
-            String username = "root";
-            String password = "";
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-
-         /* SELECT MAX(`id`) FROM `orders`;*/
-
-            ResultSet rs;
-            int lastId = 0;
-            try (Connection conn = DriverManager.getConnection(url, username, password)) {
-                Statement statement = conn.createStatement();
-                rs = statement.executeQuery("SELECT MAX(`id`) FROM `orders`");
-
-                if(rs.next())
-                {
-                 lastId = rs.getInt(1);
-                 lastId++;
-                }
-              /*  lastId = statement.executeQuery("SELECT MAX(`id`) FROM `orders`");
-                lastId++;*/
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-            try (Connection conn = DriverManager.getConnection(url, username, password)) {
-                Statement statement = conn.createStatement();
-                int rows = statement.executeUpdate("INSERT INTO `orders` (`id` , `customer_id`, `master_id`, `date`, `service_type_id`) VALUES ('"+ lastId +"','"+customer_id+"', '"+master_id+"', '"+date+"', '"+service_type_id+"')");
-                System.out.printf("Added %d rows", rows);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
