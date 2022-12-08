@@ -1,0 +1,100 @@
+body{
+	background-color: #eee;
+}
+.card{
+	width: 280px;
+	background-color: #fff;
+	border-radius: 35px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.round-div{
+	width: 48px;
+	height: 48px;
+	background-color: #30c861;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+.box-icon{
+	font-size: 20px !important;
+	color: #fff !important;
+	font-weight: lighter !important;
+}
+.shipped{
+	font-size: 16px;
+	font-weight: 700;
+	color: #30c861;
+
+}
+.img-fluid{
+	border-radius: 8px;
+}
+.item-name{
+	font-size: 17px;
+	font-weight: 700;
+	color: #484848;
+}
+.item-quantity{
+	font-size: 14px;
+	color: #b5b5b5;
+	font-weight: 500;
+}
+
+.item-price-container{
+
+	width: 100%;
+	position: relative;
+	border-radius: 10px;
+	text-align: center;
+	display: flex;
+	justify-content: flex-end;
+}
+.item-price{
+	color: #5958f6;
+	font-size: 17px;
+	font-weight: 700;
+	background-color: #efefef;
+	border-radius: 10px;
+	padding: 6px;
+	padding-left: 10px;
+	padding-right: 10px;
+
+
+}
+.dollar{
+	color: #000;
+	font-size: 16px;
+	font-weight: 700;
+}
+.crown{
+	color: #ffa500 !important;
+	font-size: 20px !important;
+}
+.reward-points{
+	font-size: 12px;
+	font-weight: 700;
+	color: #5958f6;
+}
+.reward-points-text{
+	font-size: 13px;
+	font-weight: 600;
+	color: #b5b5b5;
+	margin-left: 2px;
+}
+.btn{
+	font-size: 17px;
+	font-weight: 600;
+	border-radius: 12px;
+	width: 100px;
+	height: 60px;
+}
+.cancel-button{
+	color: #b5b5b5;
+
+}
+.track-button{
+	color: #fff;
+	background-color: #5958f6;
+}

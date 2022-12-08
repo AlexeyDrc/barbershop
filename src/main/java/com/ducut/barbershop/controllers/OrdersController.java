@@ -40,8 +40,10 @@ public class OrdersController {
     private TimesRepository timesRepository;
 
     private java.sql.Date saveDate;
+    private Long saveTime;
     private Number saveService;
     private Long idMaster;
+
 
 
 
@@ -184,6 +186,11 @@ public class OrdersController {
         return "redirect:/orders/add/time";
     }
 
+    @GetMapping("/orders/test")
+    public String orderTest(Model model) {
+    return "orders-test";
+    }
+
     @GetMapping("/orders/add/time")
     public String orderAddTime(Model model)
     {
@@ -209,11 +216,39 @@ public class OrdersController {
     }
 
     @PostMapping("/orders/add/time")
-    public String ordersAddRes(@RequestParam Number idUser, @RequestParam Number selectedTimeString, Model model) {
+    public String ordersAddRes(@RequestParam Number idUser, @RequestParam Number selectedTime, Model model) {
 
-        addRow(idUser, idMaster, saveDate, saveService, selectedTimeString);
+        addRow(idUser, idMaster, saveDate, saveService, selectedTime);
+        saveTime = selectedTime.longValue();
 
-        return "redirect:/masters";
+        return "redirect:/orders/complete";
+    }
+
+    @GetMapping("/orders/complete")
+    public String orderComplete(Model model)
+    {
+        Optional<Masters> master = mastersRepository.findById(idMaster);
+        /*Optional<Masters> master = mastersRepository.findById(2L);*/
+        ArrayList<Masters> res = new ArrayList<>();
+        master.ifPresent(res::add);
+        model.addAttribute("master", res);
+
+        Optional<Times> time = timesRepository.findById(saveTime);
+        /*Optional<Times> time = timesRepository.findById(2L);*/
+        ArrayList<Times> resT = new ArrayList<>();
+        time.ifPresent(resT::add);
+        model.addAttribute("time", resT);
+
+        Optional<Service> service = serviceRepository.findById(saveService.longValue());
+        /*Optional<Service> service = serviceRepository.findById(2L);*/
+        ArrayList<Service> resS = new ArrayList<>();
+        service.ifPresent(resS::add);
+        model.addAttribute("service", resS);
+
+
+        model.addAttribute("date", saveDate);
+
+        return "orders-complete";
     }
 
     private ArrayList getMasterFreeTime(long id, java.sql.Date saveDate){

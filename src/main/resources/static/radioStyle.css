@@ -1,0 +1,70 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+}
+
+.radio-item [type = "radio"]{
+    display: none;
+}
+
+.radio-item{
+    margin-top: 1px;
+}
+
+.radio-item label{
+    color: #ffffff;
+    display: block;
+    padding: 20px 20px;
+    background: #827f7f;
+    border: 2px solid rgba(74, 72, 72, 0.1);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 400;
+    min-width: 120px;
+    max-width: 120px;
+    white-space: nowrap;
+    position: relative;
+   transition: .4s easy-in-out 0s;
+}
+
+.radio-item label:after,
+.radio-item label:before{
+}
+
+.radio-item label:after{
+   height: 20px;
+   width: 20px;
+   border: 2px solid #524eee;
+   left: 20px;
+   top: calc(50%-12px);
+}
+
+.radio-item label:before{
+   background: #524eee;
+   height: 10px;
+   width: 10px;
+   left:27px;
+   top: calc(50%-5PX)
+   transform: scale(5);
+   opacity: 0;
+   visibility: hidden;
+   transition: .4s easy-in-out 0s;
+}
+
+.radio-item [type="radio"]:checked ~ label{
+    background: #00c4ff;
+}
+
+.radio-item [type="radio"]:checked ~ label:before{
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+
+

@@ -5,11 +5,15 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
+  <link rel="stylesheet" th:href="@{/radioStyle.css}" />
+  <link rel="stylesheet" th:href="@{/test.css}" />
 
 </head>
 <body>
@@ -33,6 +37,9 @@
 
         <input type="number" name="idUser" placeholder="id Юзера" class="form-control" required><br>
 
+        <input type="tel" name="customerPhone" class="form-control" placeholder=" Введите ваш номер телефона "><br>
+
+        <input type="text" name="customerName" class="form-control" placeholder=" Введите ваше имя"><br>
 
         <!--<select id="mastersSelect" type="number" name="idMaster" class="btn btn-outline-secondary dropdown-toggle"
                 required>
@@ -59,13 +66,29 @@
           </div>
         </div>
 
-        <select  type="number" name="selectedTimeString" class="btn btn-outline-secondary dropdown-toggle" required>
+       <!-- <select  type="number" name="selectedTimeString" class="btn btn-outline-secondary dropdown-toggle" required>
         <option selected hidden value="">Время</option>
         <div th:each="elFreeTime : ${freeTime}">
-          <option class="dropdown-item" th:each="elTimes : ${times}" th:if="${elTimes.id} == ${elFreeTime}" th:text="${elTimes.time}" th:value="${elTimes.id}"></option>
+        <option class="dropdown-item" th:each="elTimes : ${times}" th:if="${elTimes.id} == ${elFreeTime}" th:text="${elTimes.time}" th:value="${elTimes.id}"></option>
+              <button th:each="elTimes : ${times}" th:if="${elTimes.id} == ${elFreeTime}" th:text="${elTimes.time}" th:value="${elTimes.id}"></button>
         </div>
-        </select>
-        <br>
+        </select>-->
+
+        <!--<form type="number" name="selectedTimeString">
+        <div th:each="elFreeTime : ${freeTime}">
+          &lt;!&ndash;          <option class="dropdown-item" th:each="elTimes : ${times}" th:if="${elTimes.id} == ${elFreeTime}" th:text="${elTimes.time}" th:value="${elTimes.id}"></option>&ndash;&gt;
+          <button th:each="elTimes : ${times}" th:if="${elTimes.id} == ${elFreeTime}" th:text="${elTimes.time}" th:value="${elTimes.id}"></button>
+        </div>
+        <br>-->
+
+
+          <div th:each="elFreeTime : ${freeTime}" class="radio-list">
+            <div class="radio-item" th:each="elTimes : ${times}" th:if="${elTimes.id} == ${elFreeTime}">
+            <input type="radio" th:id="radio + ${elTimes.id}" name="selectedTime" th:value="${elTimes.id}" required>
+              <label th:for="radio + ${elTimes.id}" th:text="${elTimes.time}"></label>
+            </div>
+          </div>
+
 
         <button type="submit"  class="btn btn-primary">Далее</button>
       </form>

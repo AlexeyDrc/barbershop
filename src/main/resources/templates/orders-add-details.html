@@ -54,7 +54,7 @@
                     <select name="idService" class="btn btn-outline-secondary dropdown-toggle mt-3 mb-3" required>
                       <option selected hidden value="">Услуга</option>
                       <div class="dropdown-item" th:each="elS : ${services}">
-                        <option th:text="${elS.service_name}" th:attr="value = ${elS.id}"></option>
+                        <option th:text="${elS.service_name} + ' - ' + ${elS.service_price} + ' BYN' " th:attr="value = ${elS.id}"></option>
                       </div>
                     </select><br>
                     <input type="date" name="date" th:min="${minDate}" th:max="${maxDate}" placeholder="Дата" class="form-control"><br>
