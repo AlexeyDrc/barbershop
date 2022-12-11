@@ -1,3 +1,4 @@
+/*
 package com.ducut.barbershop.models.Auth;
 
 import javax.persistence.*;
@@ -76,3 +77,4 @@ public class User {
         this.roles = roles;
     }
 }
+*/

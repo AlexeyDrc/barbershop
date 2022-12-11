@@ -1,3 +1,4 @@
+/*
 package com.ducut.barbershop.repos;
 
 import com.ducut.barbershop.models.Auth.User;
@@ -10,3 +11,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Boolean existsByUsername(String username);
     Boolean existsByPhoneNumber(String phoneNumber);
 }
+*/

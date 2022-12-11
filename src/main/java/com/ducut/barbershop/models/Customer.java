@@ -15,6 +15,17 @@ public class Customer {
     private boolean authUser = false;
     private Long userId;
     private String phoneNumber;
+    private String customerName;
+
+    public Customer() {
+    }
+
+    public Customer(boolean authUser, Long userId, String phoneNumber, String customerName) {
+        this.authUser = authUser;
+        this.userId = userId;
+        this.phoneNumber = phoneNumber;
+        this.customerName = customerName;
+    }
 
     public Long getId() {
         return id;
@@ -46,5 +57,13 @@ public class Customer {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 }

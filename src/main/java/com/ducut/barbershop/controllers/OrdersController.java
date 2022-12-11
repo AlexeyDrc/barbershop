@@ -1,10 +1,10 @@
 package com.ducut.barbershop.controllers;
 
 import com.ducut.barbershop.models.*;
-import com.ducut.barbershop.models.Auth.User;
 import com.ducut.barbershop.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Optional;
+import java.util.*;
+
 
 @Controller
 public class OrdersController {
@@ -27,8 +26,8 @@ public class OrdersController {
     @Autowired
     private ServiceRepository serviceRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    /*@Autowired
+    private UserRepository userRepository;*/
 
     @Autowired
     private MastersRepository mastersRepository;
@@ -43,7 +42,8 @@ public class OrdersController {
     private Long saveTime;
     private Number saveService;
     private Long idMaster;
-
+    private String saveName;
+    private String savePhone;
 
 
 
@@ -55,9 +55,9 @@ public class OrdersController {
         Iterable<Service> services = serviceRepository.findAll();
         model.addAttribute("services", services);
 
-        Iterable<User> user = userRepository.findAll();
+      /*  Iterable<User> user = userRepository.findAll();
         model.addAttribute("user", user);
-
+*/
         Iterable<Customer> customers = customerRepository.findAll();
         model.addAttribute("customers", customers);
 
@@ -84,8 +84,8 @@ public class OrdersController {
         Iterable<Service> services = serviceRepository.findAll();
         model.addAttribute("services", services);
 
-        Iterable<User> user = userRepository.findAll();
-        model.addAttribute("user", user);
+        /*Iterable<User> user = userRepository.findAll();
+        model.addAttribute("user", user);*/
 
         Iterable<Masters> masters = mastersRepository.findAll();;
         model.addAttribute("masters", masters);
@@ -108,7 +108,7 @@ public class OrdersController {
 
         return "redirect:/orders";
     }*/
-    @GetMapping("/orders/add/details")
+    /*@GetMapping("/orders/add/details")
     public String ordersAddDetails(Model model) {
 
         Iterable<Orders> orders = ordersRepository.findByDateASC();
@@ -117,8 +117,8 @@ public class OrdersController {
         Iterable<Service> services = serviceRepository.findAll();
         model.addAttribute("services", services);
 
-        Iterable<User> user = userRepository.findAll();
-        model.addAttribute("user", user);
+        *//*Iterable<User> user = userRepository.findAll();
+        model.addAttribute("user", user);*//*
 
         Iterable<Masters> masters = mastersRepository.findAll();;
         model.addAttribute("masters", masters);
@@ -126,15 +126,16 @@ public class OrdersController {
         Iterable<Times> times = timesRepository.findAll();
         model.addAttribute("times", times);
 
-        /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        *//*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
-*/
+*//*
 
 
         model.addAttribute("saveDate", saveDate);
 
         return "orders-add-details";
-    }
+    }*/
+
 
     /*@PostMapping("/orders/add")
     public String ordersAdd(@RequestParam java.sql.Date date, @RequestParam Number idService, Model model){
@@ -145,6 +146,8 @@ public class OrdersController {
 
         return "redirect:/orders/add/details";
     }*/
+
+
     @GetMapping("/orders/add/details/{id}")
     public String orderAddDetails(@PathVariable(value = "id") long id, Model model)
     {
@@ -186,9 +189,30 @@ public class OrdersController {
         return "redirect:/orders/add/time";
     }
 
-    @GetMapping("/orders/test")
-    public String orderTest(Model model) {
-    return "orders-test";
+    @GetMapping("/orders/test/{id}")
+    public String orderTest(@PathVariable(value = "id") long id,Model model) {
+
+        Iterable<Orders> orders = ordersRepository.findByDateASC();
+        model.addAttribute("orders", orders);
+
+        Iterable<Service> services = serviceRepository.findAll();
+        model.addAttribute("services", services);
+
+        /*Iterable<User> user = userRepository.findAll();
+        model.addAttribute("user", user);*/
+
+        Iterable<Customer> customers = customerRepository.findAll();
+        model.addAttribute("customers", customers);
+
+        Iterable<Masters> masters = mastersRepository.findAll();;
+        model.addAttribute("masters", masters);
+
+        Iterable<Times> times = timesRepository.findAll();
+        model.addAttribute("times", times);
+
+        model.addAttribute("idMaster", String.valueOf(id));
+
+        return "orders-test";
     }
 
     @GetMapping("/orders/add/time")
@@ -216,9 +240,14 @@ public class OrdersController {
     }
 
     @PostMapping("/orders/add/time")
-    public String ordersAddRes(@RequestParam Number idUser, @RequestParam Number selectedTime, Model model) {
+    public String ordersAddRes(@RequestParam String customerPhone, @RequestParam String customerName, @RequestParam Number selectedTime, Model model) {
 
-        addRow(idUser, idMaster, saveDate, saveService, selectedTime);
+        savePhone = customerPhone;
+        saveName = customerName;
+
+        Number customerId = getCustomerId(savePhone, customerName);
+
+        addRow(customerId, idMaster, saveDate, saveService, selectedTime);
         saveTime = selectedTime.longValue();
 
         return "redirect:/orders/complete";
@@ -250,6 +279,31 @@ public class OrdersController {
 
         return "orders-complete";
     }
+
+
+    private long getCustomerId(String savePhone, String customerName)
+        {
+            long customerId = 0;
+            boolean customerHaveARow = false;
+
+
+            Iterable<Customer> customers = customerRepository.findAll();
+            for (Customer customer: customers) {
+                if (Objects.equals(customer.getPhoneNumber() , savePhone))
+                {
+                    customerId = customer.getId();
+                    customerHaveARow = true;
+                }
+            }
+
+            if (customerHaveARow == false)
+            {
+                Customer c = new Customer(false,null,savePhone, customerName );
+                customerRepository.save(c);
+                customerId = c.getId();
+            }
+            return customerId;
+        }
 
     private ArrayList getMasterFreeTime(long id, java.sql.Date saveDate){
 
