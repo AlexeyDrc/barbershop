@@ -1,0 +1,43 @@
+.lgbtn {
+  border-radius: 5px;
+  padding: 15px 55px;
+  font-size: 18px;
+  text-decoration: none;
+  margin: 5px;
+  background-color: #333;
+  color: #fff;
+  position: relative;
+  display: inline-block;
+  border: none;
+}
+.lgbtn:active {
+  transform: translate(0px, 5px);
+  -webkit-transform: translate(0px, 5px);
+  box-shadow: 0px 1px 0px 0px;
+
+}
+
+
+
+.green {
+  background-color: #333;
+  box-shadow: 3px 5px 5px #888888;
+  border-radius: 2px;
+  transition: all .5s ease-in-out;
+}
+.green:hover {
+  background-color: #0084ff;
+  color:#fff;
+  padding: 20px 60px;
+  transform: scale(1.1);
+
+}
+
+
+.center{
+height: 25vh;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+

@@ -5,22 +5,36 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/cardStyle.css}"/>
+    <link rel="stylesheet" th:href="@{/pulsebtn.css}"/>
+    <link rel="stylesheet" th:href="@{/buttons.css}"/>
+    <script src="https://kit.fontawesome.com/3fcaabb491.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
 <header th:insert="blocks/header :: header"></header>
 
 <main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+    <form action="/orders/add">
+    <button class="pulse" type="submit">Онлайн запись</button>
+    </form>
+
     <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
         <div class="col-md-5 p-lg-5 mx-auto my-5">
             <h1 class="display-4 fw-normal">D U C U T</h1>
             <p class="lead fw-normal"> В нашем салоне можно подобрать стрижки и укладки, которые помогут вам с выбором
                 своего нового стиля. </p>
-            <a class="btn btn-outline-secondary" href="/services">Посмотреть список услуг!</a>
+            <!--<a class="btn btn-outline-secondary" href="/services">Посмотреть список услуг!</a>-->
+
+            <a href="/services" class="HovB"><span class="HovBSpan">Посмотреть список услуг!</span></a>
         </div>
         <div class="product-device shadow-sm d-none d-md-block"></div>
         <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
     </div>
+
+
 
     <div class="text-bg-dark me-md-3 pt-5 px-3 pt-md-5 px-md-5 text-left overflow-hidden">
         <div class="my-3 py-3">
@@ -86,7 +100,8 @@
                     <div class="col-md-7">
                         <h2 class="featurette-heading fw-normal lh-1">г. Минск, просп. Независимости, 46<span class="text-muted"></span></h2>
                         <h2 class="lead">Оплата картой, Wi-Fi, подарочный сертификат</h2>
-                        <a type="button"  href = "/orders/add" class="btn btn-secondary" active>Записаться сюда</a>
+                        <!--<a type="button"  href = "/orders/add" class="btn btn-secondary" active>Записаться сюда</a>-->
+                        <a href="/orders/add" class="HovB"><span class="HovBSpan">Записаться сюда!</span></a>
                     </div>
                     <div class="col-md-5">
                         <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
@@ -141,7 +156,7 @@
 
         </div>
 
-
+    </div>
 </main>
 </body>
 </html>

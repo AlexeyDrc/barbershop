@@ -16,8 +16,6 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-
     private Date date;
     private int time;
 

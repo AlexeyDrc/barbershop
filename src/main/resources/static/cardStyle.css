@@ -9,3 +9,13 @@ body
     height: 100vh;
     font-family: "Montserrat", sans-serif;
 }
+
+
+
+  .table-pricing h1 {
+     color: rgb(94,19,217);
+     }
+
+     .col-md-3 {
+     margin-top: 25px;
+     }

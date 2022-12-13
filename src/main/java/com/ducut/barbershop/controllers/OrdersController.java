@@ -21,6 +21,7 @@ import java.util.*;
 @Controller
 public class OrdersController {
 
+    public long serviceId;
     @Autowired
     private OrdersRepository ordersRepository;
     @Autowired
@@ -148,9 +149,21 @@ public class OrdersController {
     }*/
 
 
+    @GetMapping("/service/{id}")
+    @PostMapping("/service/{id}")
+    public String serviceId(@PathVariable(value = "id") long id , Model model) {
+
+        serviceId = id;
+
+        return "redirect:/orders/add";
+    }
+
     @GetMapping("/orders/add/details/{id}")
     public String orderAddDetails(@PathVariable(value = "id") long id, Model model)
     {
+
+        model.addAttribute("selectedServId", serviceId);
+
         Optional<Masters> master = mastersRepository.findById(id);
         ArrayList<Masters> res = new ArrayList<>();
         master.ifPresent(res::add);

@@ -62,12 +62,12 @@ input#rate-3:checked ~ header:before{
 }
 
 input#rate-4:checked ~ header:before{
-    content: "Мне всё понравилось!";
+    content: "Хорошо!";
       color: #299c00;
 }
 
 input#rate-5:checked ~ header:before{
-    content: "Я просто в восторге!!!";
+    content: "Мне всё понравилось!";
       color: #04e000;
 }
 

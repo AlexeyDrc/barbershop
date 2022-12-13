@@ -9,11 +9,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
+  <script src="https://kit.fontawesome.com/3fcaabb491.js" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-
+  <link rel="stylesheet" th:href="@{/cardStyle.css}"/>
   <link rel="stylesheet" th:href="@{/radioStyle.css}" />
-  <link rel="stylesheet" th:href="@{/test.css}" />
+  <link rel="stylesheet" th:href="@{/greenbt.css}" />
 
 </head>
 <body>
@@ -27,16 +27,16 @@
   <main>
     <div class="py-5 text-center">
       <h2 class="mt-5">Форма записи</h2>
-      <div class="card-title" th:text="${dateTest}"></div>
-      <p class="lead">Вам надо будет указать выбрать мастера, время и услугу.</p>
     </div>
 
     <div class="container mt-5 mb-5">
       <form action="/orders/add/time" method="POST">
 
-        <input type="text" name="customerPhone" class="form-control" placeholder=" Введите ваш номер телефона "><br>
+        <label for=""> Введите ваше имя </label>
+        <input type="text" name="customerName" class="form-control" placeholder="Например, Иван" required><br>
 
-        <input type="text" name="customerName" class="form-control" placeholder=" Введите ваше имя"><br>
+        <label for=""> Введите ваш номер телефона </label>
+        <input type="text" name="customerPhone" class="form-control" placeholder=" +375 (29) 345 58 87 " required><br>
 
         <!--<select id="mastersSelect" type="number" name="idMaster" class="btn btn-outline-secondary dropdown-toggle"
                 required>
@@ -46,7 +46,7 @@
             </div>
         </select><br>-->
 
-        <div class="container mt-0">
+       <!-- <div class="container mt-0">
           <div class="album py-0 bg-light">
             <div class="container">
               <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
@@ -56,12 +56,30 @@
                     <div class="card-body">
                       <h4 class="card-title" th:text="${el.FIO}"></h4>
                     </div>
+
+                  </div>
+                </div>
+                <div class="times">
+                  <div th:each="elFreeTime : ${freeTime}" class="radio-list">
+                    <div class="radio-item" th:each="elTimes : ${times}" th:if="${elTimes.id} == ${elFreeTime}">
+                      <input type="radio" th:id="radio + ${elTimes.id}" name="selectedTime" th:value="${elTimes.id}" required>
+                      <label th:for="radio + ${elTimes.id}" th:text="${elTimes.time}"></label>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
+
+        <label for=""> Выберите время </label>
+        <div class="times">
+          <div th:each="elFreeTime : ${freeTime}" class="radio-list">
+            <div class="radio-item" th:each="elTimes : ${times}" th:if="${elTimes.id} == ${elFreeTime}">
+              <input type="radio" th:id="radio + ${elTimes.id}" name="selectedTime" th:value="${elTimes.id}" required>
+              <label th:for="radio + ${elTimes.id}" th:text="${elTimes.time}"></label>
+            </div>
+          </div>
 
        <!-- <select  type="number" name="selectedTimeString" class="btn btn-outline-secondary dropdown-toggle" required>
         <option selected hidden value="">Время</option>
@@ -79,15 +97,9 @@
         <br>-->
 
 
-          <div th:each="elFreeTime : ${freeTime}" class="radio-list">
-            <div class="radio-item" th:each="elTimes : ${times}" th:if="${elTimes.id} == ${elFreeTime}">
-            <input type="radio" th:id="radio + ${elTimes.id}" name="selectedTime" th:value="${elTimes.id}" required>
-              <label th:for="radio + ${elTimes.id}" th:text="${elTimes.time}"></label>
-            </div>
-          </div>
-
-
-        <button type="submit"  class="btn btn-primary">Далее</button>
+        <div class="center">
+        <br><button type="submit" class="lgbtn green">Оформить заказ</button>
+        </div>
       </form>
     </div>
   </main>

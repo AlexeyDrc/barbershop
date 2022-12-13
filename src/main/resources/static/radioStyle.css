@@ -7,6 +7,11 @@ body {
     font-family: "Poppins", sans-serif;
 }
 
+.radio-list
+{
+ display: inline-block;
+}
+
 .radio-item [type = "radio"]{
     display: none;
 }
@@ -14,6 +19,7 @@ body {
 .radio-item{
     margin-top: 1px;
 }
+
 
 .radio-item label{
     color: #ffffff;
@@ -57,7 +63,7 @@ body {
 }
 
 .radio-item [type="radio"]:checked ~ label{
-    background: #00c4ff;
+    background: #0084ff;
 }
 
 .radio-item [type="radio"]:checked ~ label:before{
@@ -65,6 +71,3 @@ body {
     visibility: visible;
     transform: scale(1);
 }
-
-
-

@@ -1,16 +1,54 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>О нас</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Услуги</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/3fcaabb491.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/cardStyle.css}"/>
+    <link rel="stylesheet" th:href="@{/greenbt.css}"/>
 
 </head>
 <body>
 <header th:insert="blocks/header :: header"></header>
 
-<div class="container mt-5" >
-    <h1>Все услуги и цены на них</h1>
-</div>
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Наши услуги!<!doctype html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport"
+                          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+                    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                    <title>Document</title>
+                </head>
+                <body>
+                </body>
+                </html>
+            </h1>
+            <p class="lead text-muted">Здесь представлены все услуги, которые вы можете получить</p>
+        </div>
+    </div>
+</section>
+
+<form action="/services" method="POST">
+    <div th:each="service : ${services}" class="blocks">
+        <div class="container mt-0">
+            <div class="container">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                    <h5 class="text-uppercase" th:text="${service.service_name}"></h5><!--
+                    <h3 th:text="${service.service_price} + ' BYN'"></h3>-->
+                    <!--<button class="lgbtn green" type="number"
+                            th:text="${service.service_price} + ' BYN'" th:value="el.id" name="serviceId"></button>-->
+                    <a type="submit" th:href="'/service/' + ${service.id}" class="lgbtn green" th:text="${service.service_price} + ' BYN'"></a><br>
+                </div>
+            </div>
+        </div>
+        .
+        <br>    <br>
+    </div>
+</form>
 </body>
 </html>
