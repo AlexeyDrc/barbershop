@@ -46,7 +46,6 @@ public class OrdersController {
     private String savePhone;
 
 
-
     @GetMapping("/orders")
     public String orders(Model model) {
         Iterable<Orders> orders = ordersRepository.findByDateASC();
@@ -76,8 +75,8 @@ public class OrdersController {
     @GetMapping("/orders/add")
     public String ordersAdd(Model model) {
 
-      /*  Orders.addRow(6, 2, 3, java.sql.Date.valueOf("2021-11-05"), 8);
-*/
+        /*  Orders.addRow(6, 2, 3, java.sql.Date.valueOf("2021-11-05"), 8);
+         */
         Iterable<Orders> orders = ordersRepository.findByDateASC();
         model.addAttribute("orders", orders);
 
@@ -87,7 +86,8 @@ public class OrdersController {
         /*Iterable<User> user = userRepository.findAll();
         model.addAttribute("user", user);*/
 
-        Iterable<Masters> masters = mastersRepository.findAll();;
+        Iterable<Masters> masters = mastersRepository.findAll();
+        ;
         model.addAttribute("masters", masters);
 
         Iterable<Times> times = timesRepository.findAll();
@@ -103,7 +103,7 @@ public class OrdersController {
 
     @GetMapping("/service/{id}")
     @PostMapping("/service/{id}")
-    public String serviceId(@PathVariable(value = "id") long id , Model model) {
+    public String serviceId(@PathVariable(value = "id") long id, Model model) {
 
         serviceId = id;
 
@@ -111,8 +111,7 @@ public class OrdersController {
     }
 
     @GetMapping("/orders/add/details/{id}")
-    public String orderAddDetails(@PathVariable(value = "id") long id, Model model)
-    {
+    public String orderAddDetails(@PathVariable(value = "id") long id, Model model) {
 
         model.addAttribute("selectedServId", serviceId);
 
@@ -140,17 +139,14 @@ public class OrdersController {
 
         model.addAttribute("currentDay", day);
 
-        if (res.get(0).getWorkingDay() == 1)
-        {
-            long workingTime = currentDate.getTime()+1*24*60*60*1000;
+        if (res.get(0).getWorkingDay() == 1) {
+            long workingTime = currentDate.getTime() + 1 * 24 * 60 * 60 * 1000;
             model.addAttribute("minDate", sdf.format(workingTime));
-        }
-        else
-        {
+        } else {
             model.addAttribute("minDate", sdf.format(currentDate));
         }
 
-        long addTime = currentDate.getTime()+14*24*60*60*1000;
+        long addTime = currentDate.getTime() + 14 * 24 * 60 * 60 * 1000;
         Date maxDate = new Date(addTime);
 
         model.addAttribute("maxDate", sdf.format(maxDate));
@@ -169,7 +165,7 @@ public class OrdersController {
     }
 
     @GetMapping("/orders/test/{id}")
-    public String orderTest(@PathVariable(value = "id") long id,Model model) {
+    public String orderTest(@PathVariable(value = "id") long id, Model model) {
 
         Iterable<Orders> orders = ordersRepository.findByDateASC();
         model.addAttribute("orders", orders);
@@ -183,7 +179,8 @@ public class OrdersController {
         Iterable<Customer> customers = customerRepository.findAll();
         model.addAttribute("customers", customers);
 
-        Iterable<Masters> masters = mastersRepository.findAll();;
+        Iterable<Masters> masters = mastersRepository.findAll();
+        ;
         model.addAttribute("masters", masters);
 
         Iterable<Times> times = timesRepository.findAll();
@@ -195,8 +192,7 @@ public class OrdersController {
     }
 
     @GetMapping("/orders/add/time")
-    public String orderAddTime(Model model)
-    {
+    public String orderAddTime(Model model) {
         model.addAttribute("dateTest", String.valueOf(saveDate));
 
         Optional<Masters> master = mastersRepository.findById(idMaster);
@@ -206,8 +202,17 @@ public class OrdersController {
         model.addAttribute("masterId", String.valueOf(idMaster));
 
         ArrayList freeTime = new ArrayList<>();
-        freeTime = getMasterFreeTime(idMaster,saveDate);
+        freeTime = getMasterFreeTime(idMaster, saveDate);
         model.addAttribute("freeTime", freeTime);
+
+        if (freeTime.size() == 0)
+        {
+            model.addAttribute("freeTimeBool", 0);
+        }
+        else
+        {
+            model.addAttribute("freeTimeBool", 1);
+        }
 
         Iterable<Service> services = serviceRepository.findAll();
         model.addAttribute("services", services);
@@ -238,8 +243,7 @@ public class OrdersController {
     }
 
     @GetMapping("/orders/complete")
-    public String orderComplete(Model model)
-    {
+    public String orderComplete(Model model) {
         Optional<Masters> master = mastersRepository.findById(idMaster);
         /*Optional<Masters> master = mastersRepository.findById(2L);*/
         ArrayList<Masters> res = new ArrayList<>();
@@ -266,21 +270,19 @@ public class OrdersController {
 
 
     @GetMapping("/orders/type")
-    public String orderType(Model model)
-    {
+    public String orderType(Model model) {
         return "orders-type";
     }
 
     @GetMapping("/orders/date")
-   public String orderDateCh(Model model)
-    {
+    public String orderDateCh(Model model) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date currentDate = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
         model.addAttribute("minDate", sdf.format(currentDate));
 
-        long addTime = currentDate.getTime()+14*24*60*60*1000;
+        long addTime = currentDate.getTime() + 14 * 24 * 60 * 60 * 1000;
         Date maxDate = new Date(addTime);
 
         model.addAttribute("maxDate", sdf.format(maxDate));
@@ -289,22 +291,21 @@ public class OrdersController {
     }
 
     @PostMapping("/orders/date")
-    public String orderDatCh(@RequestParam java.sql.Date date, Model model)
-    {
+    public String orderDatCh(@RequestParam java.sql.Date date, Model model) {
         saveDate = date;
         return "redirect:/orders/date/masters";
     }
 
     @GetMapping("/orders/date/masters")
-    public String orderDateChMasters(Model model)
-    {
+    public String orderDateChMasters(Model model) {
         Iterable<Orders> orders = ordersRepository.findByDateASC();
         model.addAttribute("orders", orders);
 
         Iterable<Times> times = timesRepository.findAll();
         model.addAttribute("times", times);
 
-        Iterable<Masters> masters = mastersRepository.findAll();;
+        Iterable<Masters> masters = mastersRepository.findAll();
+        ;
         model.addAttribute("masters", masters);
 
         ArrayList mastersDate = new ArrayList<>();
@@ -314,12 +315,7 @@ public class OrdersController {
         ArrayList<Long> mastersDateLong = new ArrayList<>();
         mastersDate = getMastersForDate(saveDate);
 
-        ArrayList freeTime = new ArrayList<>();
-        for (int i=0; i<= mastersDateLong.size();i++) {
-            freeTime = getMasterFreeTime((Long) mastersDate.get(i), saveDate);
-            model.addAttribute("time" +(Long) mastersDate.get(i), freeTime);
-            freeTime.clear();
-        }
+
 
         return "orders-date-masters";
     }
@@ -343,26 +339,13 @@ public class OrdersController {
     /*Методы для обработки данных заказов*/
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private ArrayList<Long> getMastersForDate(java.sql.Date saveDate)
-    {
+    private ArrayList<Long> getMastersForDate(java.sql.Date saveDate) {
         ArrayList<Long> mastersForDate = new ArrayList<>();
-        Iterable<Masters> masters = mastersRepository.findAll();;
+        Iterable<Masters> masters = mastersRepository.findAll();
+        Iterable<Orders> orders = ordersRepository.findAll();
+        Iterable<Times> times = timesRepository.findAll();
 
-        for (Masters master : masters)
-        {
+        for (Masters master : masters) {
             mastersForDate.add(master.getId());
         }
 
@@ -377,27 +360,35 @@ public class OrdersController {
         calendar.setTime(saveDate);
         savedDay = calendar.get(Calendar.DAY_OF_MONTH);
 
-        /*
 
-        model.addAttribute("currentDay", day);
-
-        if (res.get(0).getWorkingDay() == 1)
-        {
-            long workingTime = currentDate.getTime()+1*24*60*60*1000;
-            model.addAttribute("minDate", sdf.format(workingTime));
-        }
-        else
-        {
-            model.addAttribute("minDate", sdf.format(currentDate));
-        }
-
-*/
-
-        for (Masters master: masters)
-        {
-            if ((master.getWorkingDay() + day)%2 != savedDay%2)
-            {
+        for (Masters master : masters) {
+            if ((master.getWorkingDay() + day) % 2 != savedDay % 2) {
                 mastersForDate.remove(master.getId());
+            }
+        }
+
+
+        for (int i = 0; i < mastersForDate.size(); i++) {
+            for (Masters master : masters) {
+                if (master.getId() == mastersForDate.get(i)) {
+                    int busyTime = 13;
+                    for (Orders order : orders) {
+                        if (order.getMasterId() == master.getId()) {
+                            if (order.getDate().equals(saveDate)) {
+                                for (Times time : times) {
+                                    if (order.getTime() == time.getId()) {
+                                        busyTime--;
+                                    }
+                                    else continue;
+                                }
+                            }
+                        }
+                    }
+                    if (busyTime == 0)
+                    {
+                        mastersForDate.remove(master.getId());
+                    }
+                }
             }
         }
 
@@ -405,44 +396,40 @@ public class OrdersController {
     }
 
 
-    private long getCustomerId(String savePhone, String customerName)
-        {
-            long customerId = 0;
-            boolean customerHaveARow = false;
+    private long getCustomerId(String savePhone, String customerName) {
+        long customerId = 0;
+        boolean customerHaveARow = false;
 
 
-            Iterable<Customer> customers = customerRepository.findAll();
-            for (Customer customer: customers) {
-                if (Objects.equals(customer.getPhoneNumber() , savePhone))
-                {
-                    customerId = customer.getId();
-                    customerHaveARow = true;
-                }
+        Iterable<Customer> customers = customerRepository.findAll();
+        for (Customer customer : customers) {
+            if (Objects.equals(customer.getPhoneNumber(), savePhone)) {
+                customerId = customer.getId();
+                customerHaveARow = true;
             }
-
-            if (customerHaveARow == false)
-            {
-                Customer c = new Customer(false,null,savePhone, customerName );
-                customerRepository.save(c);
-                customerId = c.getId();
-            }
-            return customerId;
         }
 
-    private ArrayList getMasterFreeTime(long id, java.sql.Date saveDate){
+        if (customerHaveARow == false) {
+            Customer c = new Customer(false, null, savePhone, customerName);
+            customerRepository.save(c);
+            customerId = c.getId();
+        }
+        return customerId;
+    }
+
+    private ArrayList getMasterFreeTime(long id, java.sql.Date saveDate) {
 
         Iterable<Orders> orders = ordersRepository.findAll();
         Iterable<Times> times = timesRepository.findAll();
 
         ArrayList freeTime = new ArrayList<>();
 
-        for (Times time : times)
-        {
+        for (Times time : times) {
             freeTime.add(time.getId());
         }
 
-        for (Orders order: orders) {
-            if(order.getMasterId() == id) {
+        for (Orders order : orders) {
+            if (order.getMasterId() == id) {
                 if (order.getDate().equals(saveDate)) {
                     for (Times time : times) {
                         if (order.getTime() == time.getId()) {
@@ -457,8 +444,7 @@ public class OrdersController {
 
     }
 
-    private long getSelectedTimeId(String selectedTimeString)
-    {
+    private long getSelectedTimeId(String selectedTimeString) {
         Iterable<Times> times = timesRepository.findAll();
 
         long id = 0;
@@ -491,8 +477,7 @@ public class OrdersController {
                 Statement statement = conn.createStatement();
                 rs = statement.executeQuery("SELECT MAX(`id`) FROM `orders`");
 
-                if(rs.next())
-                {
+                if (rs.next()) {
                     lastId = rs.getInt(1);
                     lastId++;
                 }
@@ -504,7 +489,7 @@ public class OrdersController {
 
             try (Connection conn = DriverManager.getConnection(url, username, password)) {
                 Statement statement = conn.createStatement();
-                int rows = statement.executeUpdate("INSERT INTO `orders` (`id` , `customer_id`, `master_id`, `date`, `service_type_id`, `time`) VALUES ('"+ lastId +"','"+customer_id+"', '"+master_id+"', '"+date+"', '"+service_type_id+"', '"+time_id+"')");
+                int rows = statement.executeUpdate("INSERT INTO `orders` (`id` , `customer_id`, `master_id`, `date`, `service_type_id`, `time`) VALUES ('" + lastId + "','" + customer_id + "', '" + master_id + "', '" + date + "', '" + service_type_id + "', '" + time_id + "')");
                 System.out.printf("Added %d rows", rows);
             } catch (SQLException e) {
                 throw new RuntimeException(e);

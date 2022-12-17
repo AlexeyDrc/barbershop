@@ -1,10 +1,11 @@
-/*
 package com.ducut.barbershop.repos;
 
-import com.ducut.barbershop.models.User;
+import com.ducut.barbershop.models.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User,Long> {
-    User findByPhoneNumber(String phoneNumber);
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    Optional<UserEntity> findByUsername(String username);
+    Boolean existsByUsername(String username);
 }
-*/

@@ -11,6 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <link rel="stylesheet" th:href="@{/greenbt.css}"/>
     <link rel="stylesheet" th:href="@{/cardStyle.css}"/>
+    <link rel="stylesheet" th:href="@{/orderForm.css}"/>
 </head>
 <body>
 <header th:insert="blocks/header :: header"></header>
@@ -26,7 +27,7 @@
             <p class="lead">Вам надо будет указать выбрать мастера, время и услугу.</p>
         </div>
 
-        <div class="container mt-5 mb-5">
+       <!-- <div class="container mt-5 mb-5">
             <form th:href="'/orders/add/details/' + ${idMaster}" method="POST">
 
 
@@ -65,7 +66,49 @@
                 <button type="submit" class="lgbtn green">Далее</button>
 
         </form>
-</div>
+</div>-->
+    <form th:href="'/orders/add/details/' + ${idMaster}" method="POST">
+    <div class="container bg-white pb-5">
+        <div th:each="el : ${master}">
+        <div class="row d-flex justify-content-start align-items-center mt-sm-5">
+            <div class="col-lg-5 col-10">
+                <div id="circle"></div>
+                <div class="pb-5">
+                    <img th:src="${el.photoURL}" alt="">
+                </div>
+            </div>
+            <div class="col-lg-4 offset-lg-2 col-md-6 offset-md-3">
+                <div class="pt-4">
+                    <h3 th:text="'Мастер - ' + ${el.FIO}"></h3>
+                </div>
+                <div class="mt-3 mt-md-5">
+                    <h5></h5>
+                    <form class="pt-4">
+                        <label for="">Услуга</label>
+                        <select name="idService" class="btn btn-outline-secondary dropdown-toggle mt-3 mb-3" required>
+                            <option selected hidden value="">Услуга</option>
+                            <div class="dropdown-item" th:each="elS : ${services}">
+                                <div  th:if="${selectedServId} == ${elS.id}">
+                                    <option selected th:text="${elS.service_name} + ' - ' + ${elS.service_price} + ' BYN' " th:attr="value = ${elS.id}" ></option>
+                                </div>
+                                   <div  th:if="${selectedServId} != ${elS.id}">
+                                    <option th:text="${elS.service_name} + ' - ' + ${elS.service_price} + ' BYN' " th:attr="value = ${elS.id}" ></option>
+                                </div>
+                            </div>
+                        </select><br>
+                        <div class="d-flex flex-column pb-3">
+                            <label for="">Дата</label>
+                            <input type="date" name="date" th:min="${minDate}" th:max="${maxDate}" th:step="2" placeholder="Дата" class="form-control" required><br>
+                        </div>
+
+                    </form>
+                </div>
+                <button type="submit" class="lgbtn green">Далее</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    </form>
 </div>
 </body>
 </html>
