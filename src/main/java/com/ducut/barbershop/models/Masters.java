@@ -19,6 +19,7 @@ public class Masters {
     private String FIO, photoURL;
     private double rate;
 
+    private int workingDay;
     private int numberofratings;
 
     public int getNumberofratings() {
@@ -61,8 +62,15 @@ public class Masters {
         this.rate = rate;
     }
 
+    public int getWorkingDay() {
+        return workingDay;
+    }
 
-    /*public static int findOrders(Number masterId) {
+    public void setWorkingDay(int workingDay) {
+        this.workingDay = workingDay;
+    }
+
+/*public static int findOrders(Number masterId) {
 
         Orders o = new Orders();
 

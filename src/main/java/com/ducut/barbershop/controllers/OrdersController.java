@@ -4,7 +4,6 @@ import com.ducut.barbershop.models.*;
 import com.ducut.barbershop.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -102,60 +101,13 @@ public class OrdersController {
         return "orders-add";
     }
 
-    /*@PostMapping("/orders/add")
-    public String ordersAdd(@RequestParam Number idUser, @RequestParam java.sql.Date date, @RequestParam Number idMaster, @RequestParam Number idService, Model model){
-        *//*Orders.addRow(idUser, idMaster, date, idService);*//*
-
-
-        return "redirect:/orders";
-    }*/
-    /*@GetMapping("/orders/add/details")
-    public String ordersAddDetails(Model model) {
-
-        Iterable<Orders> orders = ordersRepository.findByDateASC();
-        model.addAttribute("orders", orders);
-
-        Iterable<Service> services = serviceRepository.findAll();
-        model.addAttribute("services", services);
-
-        *//*Iterable<User> user = userRepository.findAll();
-        model.addAttribute("user", user);*//*
-
-        Iterable<Masters> masters = mastersRepository.findAll();;
-        model.addAttribute("masters", masters);
-
-        Iterable<Times> times = timesRepository.findAll();
-        model.addAttribute("times", times);
-
-        *//*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-*//*
-
-
-        model.addAttribute("saveDate", saveDate);
-
-        return "orders-add-details";
-    }*/
-
-
-    /*@PostMapping("/orders/add")
-    public String ordersAdd(@RequestParam java.sql.Date date, @RequestParam Number idService, Model model){
-        *//*Orders.addRow(idUser, idMaster, date, idService);*//*
-
-        saveDate = date;
-        saveService = idService;
-
-        return "redirect:/orders/add/details";
-    }*/
-
-
     @GetMapping("/service/{id}")
     @PostMapping("/service/{id}")
     public String serviceId(@PathVariable(value = "id") long id , Model model) {
 
         serviceId = id;
 
-        return "redirect:/orders/add";
+        return "redirect:/orders/type";
     }
 
     @GetMapping("/orders/add/details/{id}")
@@ -179,10 +131,24 @@ public class OrdersController {
 
         model.addAttribute("idMaster", String.valueOf(id));
 
+        int day;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date currentDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        model.addAttribute("minDate", sdf.format(currentDate));
+        model.addAttribute("currentDay", day);
+
+        if (res.get(0).getWorkingDay() == 1)
+        {
+            long workingTime = currentDate.getTime()+1*24*60*60*1000;
+            model.addAttribute("minDate", sdf.format(workingTime));
+        }
+        else
+        {
+            model.addAttribute("minDate", sdf.format(currentDate));
+        }
 
         long addTime = currentDate.getTime()+14*24*60*60*1000;
         Date maxDate = new Date(addTime);
@@ -261,7 +227,12 @@ public class OrdersController {
         Number customerId = getCustomerId(savePhone, customerName);
 
         addRow(customerId, idMaster, saveDate, saveService, selectedTime);
+
+        /*Orders orders = new Orders(saveDate, selectedTime.intValue(),serviceId, customerId.longValue(), idMaster, false);
+        ordersRepository.save(orders);*/
+
         saveTime = selectedTime.longValue();
+        //saveDate = null;
 
         return "redirect:/orders/complete";
     }
@@ -291,6 +262,146 @@ public class OrdersController {
         model.addAttribute("date", saveDate);
 
         return "orders-complete";
+    }
+
+
+    @GetMapping("/orders/type")
+    public String orderType(Model model)
+    {
+        return "orders-type";
+    }
+
+    @GetMapping("/orders/date")
+   public String orderDateCh(Model model)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        model.addAttribute("minDate", sdf.format(currentDate));
+
+        long addTime = currentDate.getTime()+14*24*60*60*1000;
+        Date maxDate = new Date(addTime);
+
+        model.addAttribute("maxDate", sdf.format(maxDate));
+
+        return "orders-date-ch";
+    }
+
+    @PostMapping("/orders/date")
+    public String orderDatCh(@RequestParam java.sql.Date date, Model model)
+    {
+        saveDate = date;
+        return "redirect:/orders/date/masters";
+    }
+
+    @GetMapping("/orders/date/masters")
+    public String orderDateChMasters(Model model)
+    {
+        Iterable<Orders> orders = ordersRepository.findByDateASC();
+        model.addAttribute("orders", orders);
+
+        Iterable<Times> times = timesRepository.findAll();
+        model.addAttribute("times", times);
+
+        Iterable<Masters> masters = mastersRepository.findAll();;
+        model.addAttribute("masters", masters);
+
+        ArrayList mastersDate = new ArrayList<>();
+        mastersDate = getMastersForDate(saveDate);
+        model.addAttribute("mastersDate", mastersDate);
+
+        ArrayList<Long> mastersDateLong = new ArrayList<>();
+        mastersDate = getMastersForDate(saveDate);
+
+        ArrayList freeTime = new ArrayList<>();
+        for (int i=0; i<= mastersDateLong.size();i++) {
+            freeTime = getMasterFreeTime((Long) mastersDate.get(i), saveDate);
+            model.addAttribute("time" +(Long) mastersDate.get(i), freeTime);
+            freeTime.clear();
+        }
+
+        return "orders-date-masters";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*Методы для обработки данных заказов*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private ArrayList<Long> getMastersForDate(java.sql.Date saveDate)
+    {
+        ArrayList<Long> mastersForDate = new ArrayList<>();
+        Iterable<Masters> masters = mastersRepository.findAll();;
+
+        for (Masters master : masters)
+        {
+            mastersForDate.add(master.getId());
+        }
+
+        int day;
+        int savedDay;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        calendar.setTime(saveDate);
+        savedDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        /*
+
+        model.addAttribute("currentDay", day);
+
+        if (res.get(0).getWorkingDay() == 1)
+        {
+            long workingTime = currentDate.getTime()+1*24*60*60*1000;
+            model.addAttribute("minDate", sdf.format(workingTime));
+        }
+        else
+        {
+            model.addAttribute("minDate", sdf.format(currentDate));
+        }
+
+*/
+
+        for (Masters master: masters)
+        {
+            if ((master.getWorkingDay() + day)%2 != savedDay%2)
+            {
+                mastersForDate.remove(master.getId());
+            }
+        }
+
+        return mastersForDate;
     }
 
 

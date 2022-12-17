@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Создание заказа</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/3fcaabb491.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/cardStyle.css}"/>
+
+    <link rel="stylesheet" th:href="@{/buttons.css}"/>
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+
+
+<div class="container">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+            crossorigin="anonymous"></script>
+    <main>
+        <div class="py-5 text-center">
+            <h2 class="mt-5">Свободные мастера</h2>
+            <!--<p class="lead">Вам надо будет указать время, услугу и мастера.</p>-->
+        </div>
+
+        <div class="container mt-5 mb-5">
+            <form action="/orders/date/masters" method="POST">
+
+                <div class="container mt-0">
+                    <div class="album py-0 bg-light">
+                        <div class="container">
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                                <div th:each="mastersDate : ${mastersDate}">
+                                    <div th:each="masters : ${masters}">
+                                        <div th:if="${masters.id} == ${mastersDate}">
+                                            <div class="card">
+                                                <img class="card-img-top" th:src="${masters.photoURL}"
+                                                     alt="Card image cap">
+                                                <div class="card-body">
+                                                    <h4 class="card-title" th:text="${masters.FIO}"></h4>
+                                                    <p class="card-text"
+                                                       th:text=" 'Рейтинг ' + ${masters.rate} + '/5.0'"></p>
+                                                    <!--time+master.id-->
+                                                    <p class="card-text"
+                                                       th:text=" 'Ближайшее свободное время: ' + ${masters.rate} + '/5.0'"></p>
+                                                    <a th:href="'/orders/add/details/' + ${masters.id}"
+                                                       class="HovB"><span
+                                                            class="HovBSpan">Записаться к этому мастеру</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

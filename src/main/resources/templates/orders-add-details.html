@@ -53,7 +53,8 @@
                                </div>
                              </select><br>
 
-                             <input type="date" name="date" th:min="${minDate}" th:max="${maxDate}" placeholder="Дата" class="form-control" required><br>
+                             <input type="date" name="date" th:min="${minDate}" th:max="${maxDate}" th:step="2" placeholder="Дата" class="form-control" required><br>
+
                            </div>
                          </div>
                        </div>

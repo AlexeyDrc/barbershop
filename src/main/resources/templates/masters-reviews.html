@@ -7,6 +7,7 @@
     <script src="https://kit.fontawesome.com/3fcaabb491.js" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/3fcaabb491.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/cardStyle.css}" />
+    <link rel="stylesheet" th:href="@{/buttons.css}"/>
 
 </head>
 <body th:each="el : ${master}">
@@ -32,8 +33,11 @@
             <p class="lead text-muted" th:text="${el.FIO}"></p>
         </div>
     </div>
-    </div>
+    </div>2
+    <a th:href="'/reviews/add/' + ${el.id}" class="HovB"><span class="HovBSpan">Добавить отзыв</span></a>
+
 </section>
+
 
 <div class="container">
     <div th:each="elR : ${masRev}" th:if="${elR.masterId} == ${el.id}" class="alert alert-secondary">
@@ -52,21 +56,8 @@
     </div>
 </div>
 <p class="py-5 text-center container">
-    <a th:href="'/reviews/add/' + ${el.id}" class="btn btn-primary my-2">Добавить отзыв</a>
-
+    <!--<a th:href="'/reviews/add/' + ${el.id}" class="btn btn-primary my-2">Добавить отзыв</a>-->
 </p>
 
-<!--<div class="container mt-5">
-  <div class = "row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-  <div th:each = "elR : ${masterReviews}" class="alert alert-secondary mt-2">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title" th:text = "${elR.description}" ></h5>
-        <p class="card-text"  th:text = " 'Рейтинг ' + ${elR.rate} + '/5.0'" ></p>
-       </div>
-  </div>
-</div>
-  </div>
-</div>-->
 </body>
 </html>
