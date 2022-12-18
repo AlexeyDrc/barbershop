@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.SimpleDateFormat;
@@ -60,7 +62,7 @@ public class MainController {
         java.sql.Date sqlDate = new java.sql.Date(currentDate.getTime());
         model.addAttribute("date", sqlDate);
 
-        Iterable<Orders> orders = ordersRepository.findByDateASC();
+        Iterable<Orders> orders = ordersRepository.findByStatusASC();
         model.addAttribute("orders", orders);
 
         Iterable<Service> services = serviceRepository.findAll();
@@ -76,6 +78,38 @@ public class MainController {
         model.addAttribute("times", times);
 
         return "profile";
+    }
+
+    @GetMapping("/profile/{orderId}/{status}/{customer}")
+    public String updateOrd(@PathVariable(value = "orderId") long orderId, @PathVariable(value = "customer") long customerId, @PathVariable(value = "status") int statusId, Model model) {
+
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        Customer cus = customer.get();
+        Optional<Orders> or = ordersRepository.findById(orderId);
+        Orders ord = or.get();
+
+        if (statusId == 2) {
+            if (ord.getWithDiscount() == 1) {
+                cus.setCompletedOrders(10);
+            }
+            ordersRepository.delete(ord);
+            return "redirect:/myorders";
+        }
+
+        ord.setStatus(statusId);
+        ordersRepository.save(ord);
+
+        int completedOrders;
+        completedOrders = cus.getCompletedOrders();
+        if (completedOrders == 10) {
+            completedOrders = 0;
+        }
+        completedOrders++;
+        cus.setCompletedOrders(completedOrders);
+        customerRepository.save(cus);
+
+
+        return "redirect:/myorders";
     }
 
 

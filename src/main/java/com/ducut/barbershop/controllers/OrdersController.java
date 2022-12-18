@@ -2,6 +2,7 @@ package com.ducut.barbershop.controllers;
 
 import com.ducut.barbershop.models.*;
 import com.ducut.barbershop.repos.*;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -109,7 +110,18 @@ public class OrdersController {
     }
 
     @GetMapping("/orders/add/details/{id}")
-    public String orderAddDetails(@PathVariable(value = "id") long id, Model model) {
+    public String orderAddDetails(@AuthenticationPrincipal UserDetails loggedUser, @PathVariable(value = "id") long id, Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (loggedUser != null)
+        {
+            String currentPrincipalName = loggedUser.getUsername();
+            Optional<UserEntity> users = userRepository.findByUsername(currentPrincipalName);
+            ArrayList<UserEntity> resU = new ArrayList<>();
+            users.ifPresent(resU::add);
+            model.addAttribute("users", resU);
+        }
+        else { model.addAttribute("users", null);}
 
         model.addAttribute("selectedServId", serviceId);
 
@@ -119,6 +131,9 @@ public class OrdersController {
 
         model.addAttribute("master", res);
         model.addAttribute("masterId", String.valueOf(id));
+
+        Iterable<Customer> customers = customerRepository.findAll();
+        model.addAttribute("customers", customers);
 
         ArrayList freeTime = new ArrayList<>();
         freeTime = getMasterFreeTime(id, saveDate);
@@ -245,13 +260,24 @@ public class OrdersController {
 
         Number customerId = getCustomerId(savePhone, customerName);
 
-        addRow(customerId, idMaster, saveDate, saveService, selectedTime);
+        int completedOrders;
+        int discount = 0;
+        Optional<Customer> customer = customerRepository.findById(customerId.longValue());
+        Customer cus = customer.get();
+        completedOrders = cus.getCompletedOrders();
+        if (completedOrders == 10) {
+           discount = 1;
+        }
+        Orders o = new Orders(saveDate, selectedTime.intValue(), saveService.longValue(), customerId.longValue() ,idMaster,0,1);
+        ordersRepository.save(o);
 
-        /*Orders orders = new Orders(saveDate, selectedTime.intValue(),serviceId, customerId.longValue(), idMaster, false);
-        ordersRepository.save(orders);*/
+        if (completedOrders == 10) {
+            completedOrders = 0;
+        }
+        cus.setCompletedOrders(completedOrders);
+        customerRepository.save(cus);
 
         saveTime = selectedTime.longValue();
-        //saveDate = null;
 
         return "redirect:/orders/complete";
     }
@@ -343,13 +369,6 @@ public class OrdersController {
 
 
 
-
-
-
-
-
-
-
     /*Методы для обработки данных заказов*/
 
 
@@ -424,7 +443,7 @@ public class OrdersController {
         }
 
         if (customerHaveARow == false) {
-            Customer c = new Customer(false, null, savePhone, customerName);
+            Customer c = new Customer(false, null, savePhone, customerName,0);
             customerRepository.save(c);
             customerId = c.getId();
         }

@@ -17,14 +17,16 @@ public class Customer {
     private String phoneNumber;
     private String customerName;
 
+    private int completedOrders;
     public Customer() {
     }
 
-    public Customer(boolean authUser, Long userId, String phoneNumber, String customerName) {
+    public Customer(boolean authUser, Long userId, String phoneNumber, String customerName, int completedOrders) {
         this.authUser = authUser;
         this.userId = userId;
         this.phoneNumber = phoneNumber;
         this.customerName = customerName;
+        this.completedOrders = completedOrders;
     }
 
     public Long getId() {
@@ -66,4 +68,13 @@ public class Customer {
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
+
+    public int getCompletedOrders() {
+        return completedOrders;
+    }
+
+    public void setCompletedOrders(int completedOrders) {
+        this.completedOrders = completedOrders;
+    }
 }
+

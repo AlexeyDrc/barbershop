@@ -15,6 +15,12 @@ public interface OrdersRepository extends CrudRepository<Orders, Long> {
             nativeQuery = true)
     List<Orders> findByDateASC();
 
+
+
+    @Query(value = "SELECT * FROM `orders` ORDER BY `orders`.`status` ASC",
+            nativeQuery = true)
+    List<Orders> findByStatusASC();
+
     @Query(value = "SELECT * FROM orders o ORDER BY o.date ASC",
             nativeQuery = true)
     List<Orders> findByDateDECS();

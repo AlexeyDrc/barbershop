@@ -22,92 +22,149 @@
             integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
             crossorigin="anonymous"></script>
 
-        <div class="py-5 text-center">
-            <h2 class="mt-5">Форма записи</h2>
-            <p class="lead">Вам надо будет указать выбрать мастера, время и услугу.</p>
-        </div>
+    <div class="py-5 text-center">
+        <h2 class="mt-5">Форма записи</h2>
+        <p class="lead">Вам надо будет указать выбрать мастера, время и услугу.</p>
+    </div>
 
-       <!-- <div class="container mt-5 mb-5">
-            <form th:href="'/orders/add/details/' + ${idMaster}" method="POST">
+    <!-- <div class="container mt-5 mb-5">
+         <form th:href="'/orders/add/details/' + ${idMaster}" method="POST">
 
 
-                 <div class="container mt-0">
-                   <div class="album py-0 bg-light">
-                     <div class="container">
-                       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-                         <div th:each="el : ${master}">
-                           <div class="card">
-                             <img class="card-img-top" th:src="${el.photoURL}" alt="Card image cap">
-                             <div class="card-body">
-                               <h4 class="card-title" th:text="${el.FIO}"></h4>
-                             </div>
+              <div class="container mt-0">
+                <div class="album py-0 bg-light">
+                  <div class="container">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                      <div th:each="el : ${master}">
+                        <div class="card">
+                          <img class="card-img-top" th:src="${el.photoURL}" alt="Card image cap">
+                          <div class="card-body">
+                            <h4 class="card-title" th:text="${el.FIO}"></h4>
+                          </div>
 
-                             <select name="idService" class="btn btn-outline-secondary dropdown-toggle mt-3 mb-3" required>
-                               <option selected hidden value="">Услуга</option>
-                               <div class="dropdown-item" th:each="elS : ${services}">
-                                   <div  th:if="${selectedServId} == ${elS.id}">
-                                    <option selected th:text="${elS.service_name} + ' - ' + ${elS.service_price} + ' BYN' " th:attr="value = ${elS.id}" ></option>
-                                   </div>
-                                   <div  th:if="${selectedServId} != ${elS.id}">
-                                       <option th:text="${elS.service_name} + ' - ' + ${elS.service_price} + ' BYN' " th:attr="value = ${elS.id}" ></option>
-                                   </div>
-                               </div>
-                             </select><br>
-
-                             <input type="date" name="date" th:min="${minDate}" th:max="${maxDate}" th:step="2" placeholder="Дата" class="form-control" required><br>
-
-                           </div>
-                         </div>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-                <br>
-                <button type="submit" class="lgbtn green">Далее</button>
-
-        </form>
-</div>-->
-    <form th:href="'/orders/add/details/' + ${idMaster}" method="POST">
-    <div class="container bg-white pb-5">
-        <div th:each="el : ${master}">
-        <div class="row d-flex justify-content-start align-items-center mt-sm-5">
-            <div class="col-lg-5 col-10">
-                <div id="circle"></div>
-                <div class="pb-5">
-                    <img th:src="${el.photoURL}" alt="">
-                </div>
-            </div>
-            <div class="col-lg-4 offset-lg-2 col-md-6 offset-md-3">
-                <div class="pt-4">
-                    <h3 th:text="'Мастер - ' + ${el.FIO}"></h3>
-                </div>
-                <div class="mt-3 mt-md-5">
-                    <h5></h5>
-                    <form class="pt-4">
-                        <label for="">Услуга</label>
-                        <select name="idService" class="btn btn-outline-secondary dropdown-toggle mt-3 mb-3" required>
+                          <select name="idService" class="btn btn-outline-secondary dropdown-toggle mt-3 mb-3" required>
                             <option selected hidden value="">Услуга</option>
                             <div class="dropdown-item" th:each="elS : ${services}">
                                 <div  th:if="${selectedServId} == ${elS.id}">
-                                    <option selected th:text="${elS.service_name} + ' - ' + ${elS.service_price} + ' BYN' " th:attr="value = ${elS.id}" ></option>
+                                 <option selected th:text="${elS.service_name} + ' - ' + ${elS.service_price} + ' BYN' " th:attr="value = ${elS.id}" ></option>
                                 </div>
-                                   <div  th:if="${selectedServId} != ${elS.id}">
+                                <div  th:if="${selectedServId} != ${elS.id}">
                                     <option th:text="${elS.service_name} + ' - ' + ${elS.service_price} + ' BYN' " th:attr="value = ${elS.id}" ></option>
                                 </div>
                             </div>
-                        </select><br>
-                        <div class="d-flex flex-column pb-3">
-                            <label for="">Дата</label>
-                            <input type="date" name="date" th:min="${minDate}" th:max="${maxDate}" th:step="2" placeholder="Дата" class="form-control" required><br>
-                        </div>
+                          </select><br>
 
-                    </form>
+                          <input type="date" name="date" th:min="${minDate}" th:max="${maxDate}" th:step="2" placeholder="Дата" class="form-control" required><br>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <button type="submit" class="lgbtn green">Далее</button>
+              </div>
+             <br>
+             <button type="submit" class="lgbtn green">Далее</button>
+
+     </form>
+</div>-->
+    <form th:href="'/orders/add/details/' + ${idMaster}" method="POST">
+        <div class="container bg-white pb-5">
+            <div th:each="el : ${master}">
+                <div class="row d-flex justify-content-start align-items-center mt-sm-5">
+                    <div class="col-lg-5 col-10">
+                        <div id="circle"></div>
+                        <div class="pb-5">
+                            <img th:src="${el.photoURL}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 offset-lg-2 col-md-6 offset-md-3">
+                        <div class="pt-4">
+                            <h3 th:text="'Мастер - ' + ${el.FIO}"></h3>
+                        </div>
+                        <div th:each="user : ${users}">
+                            <div th:each="customer : ${customers}" th:if="${user.id} == ${customer.userId}">
+                                <div class="btn btn-info" th:if="${customer.completedOrders} == 10">На этот заказ у вас
+                                    скидка 50%
+                                </div>
+                            </div>
+                        </div>
+                        <div th:each="user : ${users}">
+                            <div th:each="customer : ${customers}" th:if="${user.id} == ${customer.userId}">
+                                <div class="btn btn-outline-info" th:if="${customer.completedOrders} != 10"
+                                     th:text="'До скидки осталось: ' + ${10 - customer.completedOrders}"
+                                     title="Каждый 10 поход в парикмахерскую - 50% скидки на любую услугу!"></div>
+                            </div>
+                        </div>
+                        <div class="mt-3 mt-md-5">
+                            <h5></h5>
+                            <form class="pt-4">
+                                <label for="">Услуга</label>
+                                <select name="idService" class="btn btn-outline-secondary dropdown-toggle mt-3 mb-3"
+                                        required>
+                                    <option selected hidden value="">Услуга</option>
+                                    <div th:each="user : ${users}">
+                                        <div th:each="customer : ${customers}" th:if="${user.id} == ${customer.userId}">
+                                            <div class="btn btn-info" th:if="${customer.completedOrders} == 10">
+                                                <div class="dropdown-item" th:each="elS : ${services}">
+                                                    <div th:if="${selectedServId} == ${elS.id}">
+                                                        <option selected
+                                                                th:text="${elS.service_name} + ' - ' + ${elS.service_price*0.5} + ' BYN' "
+                                                                th:attr="value = ${elS.id}"></option>
+                                                    </div>
+                                                    <div th:if="${selectedServId} != ${elS.id}">
+                                                        <option th:text="${elS.service_name} + ' - ' + ${elS.service_price*0.5} + ' BYN' "
+                                                                th:attr="value = ${elS.id}"></option>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div th:each="user : ${users}">
+                                        <div th:each="customer : ${customers}" th:if="${user.id} == ${customer.userId}">
+                                            <div class="btn btn-info" th:if="${customer.completedOrders} != 10">
+                                                <div class="dropdown-item" th:each="elS : ${services}">
+                                                    <div th:if="${selectedServId} == ${elS.id}">
+                                                        <option selected
+                                                                th:text="${elS.service_name} + ' - ' + ${elS.service_price} + ' BYN' "
+                                                                th:attr="value = ${elS.id}"></option>
+                                                    </div>
+                                                    <div th:if="${selectedServId} != ${elS.id}">
+                                                        <option th:text="${elS.service_name} + ' - ' + ${elS.service_price} + ' BYN' "
+                                                                th:attr="value = ${elS.id}"></option>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div sec:authorize="!isAuthenticated()">
+                                                <div class="dropdown-item" th:each="elS : ${services}">
+                                                    <div th:if="${selectedServId} == ${elS.id}">
+                                                        <option selected
+                                                                th:text="${elS.service_name} + ' - ' + ${elS.service_price} + ' BYN' "
+                                                                th:attr="value = ${elS.id}"></option>
+                                                    </div>
+                                                    <div th:if="${selectedServId} != ${elS.id}">
+                                                        <option th:text="${elS.service_name} + ' - ' + ${elS.service_price} + ' BYN' "
+                                                                th:attr="value = ${elS.id}"></option>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                </select>
+                                <div class="d-flex flex-column pb-3">
+                                    <label for="">Дата</label>
+                                    <input type="date" name="date" th:min="${minDate}" th:max="${maxDate}" th:step="2"
+                                           placeholder="Дата" class="form-control" required><br>
+                                </div>
+
+                            </form>
+                        </div>
+                        <button type="submit" class="lgbtn green">Далее</button>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
-    </div>
     </form>
 </div>
 </body>

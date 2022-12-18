@@ -21,16 +21,19 @@ public class Orders {
 
     private int status;
 
+    private int withDiscount;
+
     public Orders() {
     }
 
-    public Orders(Date date, int time, Long serviceTypeId, Long customerId, Long masterId, int status) {
+    public Orders(Date date, int time, Long serviceTypeId, Long customerId, Long masterId, int status, int withDiscount) {
         this.date = date;
         this.time = time;
         this.serviceTypeId = serviceTypeId;
         this.customerId = customerId;
         this.masterId = masterId;
         this.status = status;
+        this.withDiscount = withDiscount;
     }
 
     public Long getId() {
@@ -85,5 +88,13 @@ public class Orders {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getWithDiscount() {
+        return withDiscount;
+    }
+
+    public void setWithDiscount(int withDiscount) {
+        this.withDiscount = withDiscount;
     }
 }
