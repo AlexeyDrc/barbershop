@@ -3,6 +3,10 @@ package com.ducut.barbershop.controllers;
 import com.ducut.barbershop.models.*;
 import com.ducut.barbershop.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +30,8 @@ public class OrdersController {
     @Autowired
     private ServiceRepository serviceRepository;
 
-    /*@Autowired
-    private UserRepository userRepository;*/
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private MastersRepository mastersRepository;
@@ -75,19 +79,13 @@ public class OrdersController {
     @GetMapping("/orders/add")
     public String ordersAdd(Model model) {
 
-        /*  Orders.addRow(6, 2, 3, java.sql.Date.valueOf("2021-11-05"), 8);
-         */
         Iterable<Orders> orders = ordersRepository.findByDateASC();
         model.addAttribute("orders", orders);
 
         Iterable<Service> services = serviceRepository.findAll();
         model.addAttribute("services", services);
 
-        /*Iterable<User> user = userRepository.findAll();
-        model.addAttribute("user", user);*/
-
         Iterable<Masters> masters = mastersRepository.findAll();
-        ;
         model.addAttribute("masters", masters);
 
         Iterable<Times> times = timesRepository.findAll();
@@ -118,6 +116,7 @@ public class OrdersController {
         Optional<Masters> master = mastersRepository.findById(id);
         ArrayList<Masters> res = new ArrayList<>();
         master.ifPresent(res::add);
+
         model.addAttribute("master", res);
         model.addAttribute("masterId", String.valueOf(id));
 
@@ -192,7 +191,15 @@ public class OrdersController {
     }
 
     @GetMapping("/orders/add/time")
-    public String orderAddTime(Model model) {
+    public String orderAddTime(@AuthenticationPrincipal UserDetails loggedUser, Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = loggedUser.getUsername();
+        Optional<UserEntity> users = userRepository.findByUsername(currentPrincipalName);
+        ArrayList<UserEntity> resU = new ArrayList<>();
+        users.ifPresent(resU::add);
+        model.addAttribute("users", resU);
+
         model.addAttribute("dateTest", String.valueOf(saveDate));
 
         Optional<Masters> master = mastersRepository.findById(idMaster);

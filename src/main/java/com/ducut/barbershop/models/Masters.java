@@ -2,12 +2,11 @@ package com.ducut.barbershop.models;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Masters {
@@ -20,6 +19,8 @@ public class Masters {
     private double rate;
 
     private int workingDay;
+    private long userId;
+
     private int numberofratings;
 
     public int getNumberofratings() {
@@ -70,7 +71,15 @@ public class Masters {
         this.workingDay = workingDay;
     }
 
-/*public static int findOrders(Number masterId) {
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    /*public static int findOrders(Number masterId) {
 
         Orders o = new Orders();
 

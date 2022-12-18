@@ -19,7 +19,6 @@ public class Orders {
     private Long serviceTypeId;
     private Long customerId, masterId;
 
-
     public Orders() {
     }
 

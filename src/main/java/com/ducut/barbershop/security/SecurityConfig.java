@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -36,7 +37,25 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .exceptionHandling()
+                .exceptionHandling().authenticationEntryPoint(authEntryPoint)
+                .and()
+                .authorizeRequests().antMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
+                .and()
+                .authorizeRequests().antMatchers("/myorders/**").hasRole("MASTER")
+                .and()
+                .authorizeRequests().antMatchers("/profile/**").authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/")
+                /*.exceptionHandling()
                 .authenticationEntryPoint(authEntryPoint)
                 .and()
                 .sessionManagement()
@@ -45,7 +64,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated()
-                .and()
+                .and()*/
+                 .and()
                 .httpBasic();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
@@ -65,4 +85,6 @@ public class SecurityConfig {
     public JWTAuthenticationFilter jwtAuthenticationFilter(){
         return new JWTAuthenticationFilter();
     }
+
+
 }
