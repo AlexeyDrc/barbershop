@@ -19,15 +19,18 @@ public class Orders {
     private Long serviceTypeId;
     private Long customerId, masterId;
 
+    private int status;
+
     public Orders() {
     }
 
-    public Orders(Date date, int time, Long serviceTypeId, Long customerId, Long masterId) {
+    public Orders(Date date, int time, Long serviceTypeId, Long customerId, Long masterId, int status) {
         this.date = date;
         this.time = time;
         this.serviceTypeId = serviceTypeId;
         this.customerId = customerId;
         this.masterId = masterId;
+        this.status = status;
     }
 
     public Long getId() {
@@ -74,5 +77,13 @@ public class Orders {
 
     public void setMasterId(Long masterId) {
         this.masterId = masterId;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

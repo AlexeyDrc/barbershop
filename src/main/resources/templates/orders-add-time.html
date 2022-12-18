@@ -38,12 +38,29 @@
 
     <div class="container mt-5 mb-5">
       <form action="/orders/add/time" method="POST">
-
+        <div class="d-flex align-items-center justify-content-between border-bottom">
+        <div sec:authorize="isAnonymous()">
         <label for=""> Введите ваше имя </label>
         <input type="text" name="customerName" class="form-control" placeholder="Например, Иван" required><br>
 
         <label for=""> Введите ваш номер телефона </label>
         <input type="text" name="customerPhone" class="form-control" placeholder=" +375 (29) 345 58 87 " required><br>
+          </div>
+
+          <div sec:authorize="!isAnonymous()">
+            <div th:each="user: ${users}">
+              <div th:each="customer: ${customers}">
+                <div th:if="${customer.userId}==${user.id}">
+            <label for=""> Ваше имя (взято из вашего профиля) </label>
+            <input type="text" name="customerName" class="form-control" th:value="${customer.customerName}" readonly><br>
+            <label for=""> Ваш номер телефона (взят из вашего профиля) </label>
+            <input type="text" name="customerPhone" class="form-control" th:value="${customer.phoneNumber}" readonly><br>
+            </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
 
         <label for=""> Выберите время </label>
         <div class="times">

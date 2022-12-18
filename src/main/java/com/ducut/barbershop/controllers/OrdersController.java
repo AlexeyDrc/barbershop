@@ -194,11 +194,18 @@ public class OrdersController {
     public String orderAddTime(@AuthenticationPrincipal UserDetails loggedUser, Model model) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (loggedUser != null)
+        {
         String currentPrincipalName = loggedUser.getUsername();
-        Optional<UserEntity> users = userRepository.findByUsername(currentPrincipalName);
-        ArrayList<UserEntity> resU = new ArrayList<>();
-        users.ifPresent(resU::add);
-        model.addAttribute("users", resU);
+            Optional<UserEntity> users = userRepository.findByUsername(currentPrincipalName);
+            ArrayList<UserEntity> resU = new ArrayList<>();
+            users.ifPresent(resU::add);
+            model.addAttribute("users", resU);
+        }
+       else { model.addAttribute("users", null);}
+
+        Iterable<Customer> customers = customerRepository.findAll();
+        model.addAttribute("customers", customers);
 
         model.addAttribute("dateTest", String.valueOf(saveDate));
 
