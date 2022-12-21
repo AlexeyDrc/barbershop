@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Мастера</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/3fcaabb491.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/cardStyle.css}"/>
+    <link rel="stylesheet" th:href="@{/myalerts.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+    <link rel="stylesheet" th:href="@{/buttons.css}"/>
+    <link rel="stylesheet" th:href="@{/test.css}"/>
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Все мастера, которые сейчас работают</h1>
+        </div>
+    </div>
+</section>
+
+<div class="container mt-0">
+    <div class="album py-0 bg-light">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                <div th:each="master : ${master}">
+                    <img class="card-img-top" th:src="${master.photoURL}" alt="Card image cap">
+                    <div class="card-body">
+                        <h4 class="card-title" th:text="${master.FIO}"></h4>
+                    </div>
+                    <div th:if="${freeMaster}">
+                        <a th:href="'/admin/master/delete/details/'+${master.id}" class="btn btn-danger">Удалить (Это необратимый процесс!)</a>
+                    </div>
+                    <div th:if="!${freeMaster}" class="btn btn-warning">У этого мастера есть незавершенные заказы!
+                        Он не может быть удален в данный момент</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+<div class="container mt-0">
+  <div class="album py-0 bg-light">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+        <div th:each="el : ${masters}">
+          <div class="card">
+            <img class="card-img-top" th:src="${el.photoURL}" alt="Card image cap">
+            <div class="card-body">
+              <h4 class="card-title" th:text="${el.FIO}"></h4>
+              &lt;!&ndash;<a th:href="'/orders/add/details/' + ${el.id}" class="btn btn-primary">Записаться к этому мастеру</a><br>&ndash;&gt;
+              <a th:href="'/admin/master/delete/' + ${el.id}" class="btn btn-danger">Удалить этого мастера</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>-->
+
+</body>
+</html>

@@ -113,15 +113,15 @@ public class OrdersController {
     public String orderAddDetails(@AuthenticationPrincipal UserDetails loggedUser, @PathVariable(value = "id") long id, Model model) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (loggedUser != null)
-        {
+        if (loggedUser != null) {
             String currentPrincipalName = loggedUser.getUsername();
             Optional<UserEntity> users = userRepository.findByUsername(currentPrincipalName);
             ArrayList<UserEntity> resU = new ArrayList<>();
             users.ifPresent(resU::add);
             model.addAttribute("users", resU);
+        } else {
+            model.addAttribute("users", null);
         }
-        else { model.addAttribute("users", null);}
 
         model.addAttribute("selectedServId", serviceId);
 
@@ -209,15 +209,15 @@ public class OrdersController {
     public String orderAddTime(@AuthenticationPrincipal UserDetails loggedUser, Model model) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (loggedUser != null)
-        {
-        String currentPrincipalName = loggedUser.getUsername();
+        if (loggedUser != null) {
+            String currentPrincipalName = loggedUser.getUsername();
             Optional<UserEntity> users = userRepository.findByUsername(currentPrincipalName);
             ArrayList<UserEntity> resU = new ArrayList<>();
             users.ifPresent(resU::add);
             model.addAttribute("users", resU);
+        } else {
+            model.addAttribute("users", null);
         }
-       else { model.addAttribute("users", null);}
 
         Iterable<Customer> customers = customerRepository.findAll();
         model.addAttribute("customers", customers);
@@ -234,12 +234,9 @@ public class OrdersController {
         freeTime = getMasterFreeTime(idMaster, saveDate);
         model.addAttribute("freeTime", freeTime);
 
-        if (freeTime.size() == 0)
-        {
+        if (freeTime.size() == 0) {
             model.addAttribute("freeTimeBool", 0);
-        }
-        else
-        {
+        } else {
             model.addAttribute("freeTimeBool", 1);
         }
 
@@ -266,11 +263,10 @@ public class OrdersController {
         Customer cus = customer.get();
         completedOrders = cus.getCompletedOrders();
         if (completedOrders == 10) {
-           discount = 1;
+            discount = 1;
         }
-        Orders o = new Orders(saveDate, selectedTime.intValue(), saveService.longValue(), customerId.longValue() ,idMaster,0,1);
+        Orders o = new Orders(saveDate, selectedTime.intValue(), saveService.longValue(), customerId.longValue(), idMaster, 0, discount);
         ordersRepository.save(o);
-
         if (completedOrders == 10) {
             completedOrders = 0;
         }
@@ -356,7 +352,6 @@ public class OrdersController {
         mastersDate = getMastersForDate(saveDate);
 
 
-
         return "orders-date-masters";
     }
 
@@ -411,14 +406,12 @@ public class OrdersController {
                                 for (Times time : times) {
                                     if (order.getTime() == time.getId()) {
                                         busyTime--;
-                                    }
-                                    else continue;
+                                    } else continue;
                                 }
                             }
                         }
                     }
-                    if (busyTime == 0)
-                    {
+                    if (busyTime == 0) {
                         mastersForDate.remove(master.getId());
                     }
                 }
@@ -429,7 +422,7 @@ public class OrdersController {
     }
 
 
-    private long getCustomerId(String savePhone, String customerName) {
+    public long getCustomerId(String savePhone, String customerName) {
         long customerId = 0;
         boolean customerHaveARow = false;
 
@@ -443,7 +436,7 @@ public class OrdersController {
         }
 
         if (customerHaveARow == false) {
-            Customer c = new Customer(false, null, savePhone, customerName,0);
+            Customer c = new Customer(false, null, savePhone, customerName, 0);
             customerRepository.save(c);
             customerId = c.getId();
         }
@@ -489,54 +482,5 @@ public class OrdersController {
         }
 
         return id;
-    }
-
-
-    private static void addRow(Number customer_id, Number master_id, java.sql.Date date, Number service_type_id, Number time_id) {
-
-        Orders o = new Orders();
-
-        try {
-            String url = "jdbc:mysql://127.0.0.1:3308/orders_database";
-            String username = "root";
-            String password = "";
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-
-            /* SELECT MAX(`id`) FROM `orders`;*/
-
-            ResultSet rs;
-            int lastId = 0;
-            try (Connection conn = DriverManager.getConnection(url, username, password)) {
-                Statement statement = conn.createStatement();
-                rs = statement.executeQuery("SELECT MAX(`id`) FROM `orders`");
-
-                if (rs.next()) {
-                    lastId = rs.getInt(1);
-                    lastId++;
-                }
-              /*  lastId = statement.executeQuery("SELECT MAX(`id`) FROM `orders`");
-                lastId++;*/
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-            try (Connection conn = DriverManager.getConnection(url, username, password)) {
-                Statement statement = conn.createStatement();
-                int rows = statement.executeUpdate("INSERT INTO `orders` (`id` , `customer_id`, `master_id`, `date`, `service_type_id`, `time`) VALUES ('" + lastId + "','" + customer_id + "', '" + master_id + "', '" + date + "', '" + service_type_id + "', '" + time_id + "')");
-                System.out.printf("Added %d rows", rows);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

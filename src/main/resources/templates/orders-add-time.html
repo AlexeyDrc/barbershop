@@ -39,7 +39,7 @@
     <div class="container mt-5 mb-5">
       <form action="/orders/add/time" method="POST">
         <div class="d-flex align-items-center justify-content-between border-bottom">
-        <div sec:authorize="isAnonymous()">
+        <div sec:authorize="!hasRole('USER')">
         <label for=""> Введите ваше имя </label>
         <input type="text" name="customerName" class="form-control" placeholder="Например, Иван" required><br>
 
@@ -47,7 +47,7 @@
         <input type="text" name="customerPhone" class="form-control" placeholder=" +375 (29) 345 58 87 " required><br>
           </div>
 
-          <div sec:authorize="!isAnonymous()">
+          <div sec:authorize="hasRole('USER')">
             <div th:each="user: ${users}">
               <div th:each="customer: ${customers}">
                 <div th:if="${customer.userId}==${user.id}">

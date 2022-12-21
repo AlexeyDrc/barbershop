@@ -16,7 +16,6 @@ public class ServicesController {
     @Autowired
     private ServiceRepository serviceRepository;
 
-
     @GetMapping("/services")
     public String services(Model model) {
 
@@ -25,5 +24,15 @@ public class ServicesController {
 
         return "services-main";
     }
+
+    @GetMapping("/services/edit")
+    public String servicesEdit(Model model) {
+
+        Iterable<Service> services = serviceRepository.findAll();
+        model.addAttribute("services", services);
+
+        return "services-main";
+    }
+
 
 }

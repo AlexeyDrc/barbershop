@@ -22,7 +22,7 @@ import java.util.Collections;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class    AuthController {
 
     private AuthenticationManager authenticationManager;
     private UserRepository userRepository;
@@ -49,7 +49,7 @@ public class AuthController {
         return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
     }
 
-    @PostMapping("register")
+/*    @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
         if (userRepository.existsByUsername(registerDto.getUsername())) {
         return new ResponseEntity<>("Username is taken", HttpStatus.BAD_REQUEST);
@@ -65,6 +65,6 @@ public class AuthController {
         userRepository.save(user);
 
         return new ResponseEntity<>("User registered success", HttpStatus.OK);
-    }
+    }*/
 
 }

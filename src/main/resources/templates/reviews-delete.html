@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Мастера</title>
+    <title>УДАЛЕНИЕ ОТЗЫВА</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/3fcaabb491.js" crossorigin="anonymous"></script>
@@ -10,47 +10,37 @@
     <link rel="stylesheet" th:href="@{/buttons.css}"/>
 
 </head>
-<body th:each="el : ${master}">
+<body>
 <header th:insert="blocks/header :: header"></header>
+
 
 <section class="py-5 text-center container">
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">Отзывы<!doctype html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport"
-                          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-                    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-                    <title>Document</title>
-                </head>
-                <body>
-
-                </body>
-                </html>
-            </h1>
-            <p class="lead text-muted" th:text="${el.FIO}"></p>
+            <h1 class="fw-light">Все отзывы</h1>
+            <a class="btn btn-info" href="/admin/reviews/0">По порядку</a>
+            <a class="btn btn-info" href="/admin/reviews/1">Сначала новые</a>
+            <a class="btn btn-info" href="/admin/reviews/2">Сначала плохие</a>
+            <a class="btn btn-info" href="/admin/reviews/3">Сортировка по мастерам</a>
         </div>
     </div>
     </div>
-    <a th:href="'/reviews/add/' + ${el.id}" class="HovB"><span class="HovBSpan">Добавить отзыв</span></a>
-
 </section>
 
-
 <div class="container">
-    <div th:each="elR : ${masRev}" th:if="${elR.masterId} == ${el.id}" class="alert alert-secondary">
+    <div th:each="elR : ${reviews}" class="alert alert-secondary">
         <div class="card">
             <div class="card-body">
-                <p class="text-black-50" th:text="${elR.date}"></p>
+                <div th:each="master: ${masters}" th:if="${master.id} == ${elR.masterId}">
+                <p class="text-black-50" th:text="${elR.date} + ', Отзыв для мастера - ' + ${master.FIO }"></p>
+                </div>
                 <h5 class="card-title" th:text="${elR.name}"></h5>
-                <p class="card-text" th:text="${elR.description}"></p><!--
-          <p class="card-text"  th:text = " 'Оценка ' + ${elR.rate} + '/5.0'" ></p>-->
-
+                <p class="card-text" th:text="${elR.description}"></p>
                 <h5 style="display:inline" th:text="${elR.rate}"/>
                 <img src="https://plus-clean.ru/wp-content/uploads/2021/06/em3kkwtweaa3vtd.jpg" width="25" height="25"
                      class="mb-2">
+                <br>
+                <a class="btn btn-danger" th:href="'/admin/'+${elR.id}+'/'+${elR.masterId}">Удалить</a>
             </div>
         </div>
     </div>

@@ -138,7 +138,7 @@
                                         </div>
                                     </div>
 
-                                    <div sec:authorize="!isAuthenticated()">
+                                    <div sec:authorize="!hasRole('ROLE_USER')">
                                                 <div class="dropdown-item" th:each="elS : ${services}">
                                                     <div th:if="${selectedServId} == ${elS.id}">
                                                         <option selected

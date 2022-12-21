@@ -1,11 +1,15 @@
 package com.ducut.barbershop.controllers;
 
-import com.ducut.barbershop.models.Masters;
-import com.ducut.barbershop.models.MastersReviews;
-import com.ducut.barbershop.models.Orders;
+import com.ducut.barbershop.models.*;
+import com.ducut.barbershop.repos.CustomerRepository;
 import com.ducut.barbershop.repos.MastersRepository;
 import com.ducut.barbershop.repos.MastersReviewsRepository;
+import com.ducut.barbershop.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,11 +29,30 @@ public class MastersReviewsController {
     private MastersRepository mastersRepository;
     @Autowired
     private MastersReviewsRepository mastersReviewsRepository;
-
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @GetMapping("/reviews/add/{id}")
-    public String reviews(@PathVariable(value = "id") long id, Model model)
+    public String reviews(@AuthenticationPrincipal UserDetails loggedUser, @PathVariable(value = "id") long id, Model model)
     {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (loggedUser != null) {
+            String currentPrincipalName = loggedUser.getUsername();
+            Optional<UserEntity> users = userRepository.findByUsername(currentPrincipalName);
+            ArrayList<UserEntity> resU = new ArrayList<>();
+            users.ifPresent(resU::add);
+            model.addAttribute("user", resU);
+        } else {
+            model.addAttribute("user", null);
+        }
+
+
+        Iterable<Customer> customers = customerRepository.findAll();
+        model.addAttribute("customers", customers);
+
+
         Optional<Masters> master = mastersRepository.findById(id);
         ArrayList<Masters> res = new ArrayList<>();
         master.ifPresent(res::add);
