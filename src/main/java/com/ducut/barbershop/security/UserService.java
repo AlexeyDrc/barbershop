@@ -6,6 +6,6 @@ import com.ducut.barbershop.repos.UserRepository;
 public interface UserService {
 
     void saveUser(RegisterDto registerDto);
-
+    void saveMaster(RegisterDto registerDto);
     UserEntity findUserByUsername(String username);
 }

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Заказы</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+  <script src="https://kit.fontawesome.com/3fcaabb491.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" th:href="@{/cardStyle.css}"/>
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+
+
+
+<div class="container mt-5">
+  <div class="table-responsive">
+    <table class="table table-striped table-dark text-white table-hover">
+      <thead>
+      <tr>
+        <th colspan="2">Логин</th>
+        <th>Роль</th>
+      </tr>
+      </thead>
+      <tbody th:each="user : ${users}">
+      <tr>
+        <td colspan="2">
+          <div th:text="${user.username}"></div>
+        </td>
+        <td>
+
+
+        <td>
+          <!--<a class="btn btn-success" th:href="'/profile/'+${orders.id}+'/1/' + ${orders.customerId}">Выполнен</a>
+          <a class="btn btn-danger" th:href="'/profile/'+${orders.id}+'/2/' + ${orders.customerId}">Отменен</a>-->
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+</body>
+</html>

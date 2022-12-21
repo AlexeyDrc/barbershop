@@ -10,6 +10,4 @@ import java.util.List;
 
 public interface MastersRepository extends CrudRepository<Masters, Long> {
 
-
-
 }

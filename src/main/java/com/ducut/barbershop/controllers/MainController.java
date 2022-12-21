@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -41,10 +39,15 @@ public class MainController {
     private CustomerRepository customerRepository;
 
     @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
     private TimesRepository timesRepository;
     @Autowired
     private UserRepository userRepository;
     private UserService userService;
+    public MainController(UserService userService) {
+        this.userService = userService;
+    }
     int sortOperation = 0;
 
 
@@ -132,6 +135,7 @@ public class MainController {
     {
         Iterable<Orders> orders = ordersRepository.findAll();
         Iterable<MastersReviews> reviews = mastersReviewsRepository.findAll();
+        Iterable<UserEntity> users = userRepository.findAll();
 
         Optional<Masters> m = mastersRepository.findById(id);
         Masters master = m.get();
@@ -149,6 +153,14 @@ public class MainController {
             if (review.getMasterId() == master.getId())
             {
                 mastersReviewsRepository.delete(review);
+            }
+        }
+
+        for (UserEntity user: users)
+        {
+            if (user.getId() == master.getUserId())
+            {
+                userRepository.delete(user);
             }
         }
 
@@ -209,22 +221,33 @@ public class MainController {
         return "master-add";
     }
 
+    @GetMapping("/admin/users")
+    public String adminUsers(Model model)
+    {
+        Iterable<UserEntity> users = userRepository.findAll();
+        model.addAttribute("users", users);
+        return "admin-users";
+    }
+
     @PostMapping("/admin/master/add")
-    public String register(@Valid @ModelAttribute("user")RegisterDto user,
-                           BindingResult result, @RequestParam String name, Model model) {
+    public String masterAdd(@Valid @ModelAttribute("user")RegisterDto user,
+                           BindingResult result, @RequestParam String name, @RequestParam String photoURL, @RequestParam Number workingDays, Model model) {
         UserEntity existingUserUsername = userService.findUserByUsername(user.getUsername());
         if (existingUserUsername != null && existingUserUsername.getUsername() != null && !existingUserUsername.getUsername().isEmpty()) {
-            return "redirect:/register?fail";
+            return "redirect:/admin/master/add?fail";
         }
         if (result.hasErrors())
         {
             model.addAttribute("user", user);
-            return "register";
+            return "master-add";
         }
+        userService.saveMaster(user);
+        UserEntity user1 = userRepository.findUserByUsername(user.getUsername());
+        Masters m = new Masters(name,0,photoURL,0, workingDays.intValue(), user1.getId());
+        mastersRepository.save(m);
+        return "redirect:/masters";
 
-        OrdersController o = new OrdersController();
-
-        if (customer.getUserId() == null)
+      /*  if (customer.getUserId() == null)
         {
             userService.saveUser(user);
             UserEntity user1 = userService.findUserByUsername(user.getUsername());
@@ -234,7 +257,7 @@ public class MainController {
         }
         else {
             return "redirect:/register?failphone";
-        }
+        }*/
     }
 
     @GetMapping("/profile/{orderId}/{status}/{customer}")

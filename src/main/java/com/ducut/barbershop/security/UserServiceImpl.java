@@ -35,6 +35,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void saveMaster(RegisterDto registerDto) {
+        UserEntity user = new UserEntity();
+        user.setUsername(registerDto.getUsername());
+        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+        Role roles = roleRepository.findByName("ROLE_MASTER").get();
+        user.setRoles(Collections.singletonList(roles));
+        userRepository.save(user);
+    }
+
+    @Override
     public UserEntity findUserByUsername(String username) {
         return userRepository.findUserByUsername(username);
     }
