@@ -14,6 +14,8 @@
   <link rel="stylesheet" th:href="@{/cardStyle.css}"/>
   <link rel="stylesheet" th:href="@{/radioStyle.css}" />
   <link rel="stylesheet" th:href="@{/greenbt.css}" />
+  <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://snipp.ru/cdn/maskedinput/jquery.maskedinput.min.js"></script>
 
 </head>
 <body>
@@ -44,7 +46,11 @@
         <input type="text" name="customerName" class="form-control" placeholder="Например, Иван" required><br>
 
         <label for=""> Введите ваш номер телефона </label>
-        <input type="text" name="customerPhone" class="form-control" placeholder=" +375 (29) 345 58 87 " required><br>
+        <input type="text" name="customerPhone" class="mask-phone form-control" placeholder=" +375 (29) 345 58 87 " required><br>
+          <script>
+          $('.mask-phone').mask('+375 (99) 999-99-99');
+          </script>
+
           </div>
 
           <div sec:authorize="hasRole('USER')">

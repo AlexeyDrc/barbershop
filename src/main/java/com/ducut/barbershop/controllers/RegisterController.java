@@ -73,6 +73,12 @@ public class RegisterController {
         }
     }
 
+    @GetMapping("/log")
+    public String test(Model model)
+    {
+        return "log";
+    }
+
     @GetMapping("/register/done")
     public String getRegisterDone(Model model)
     {

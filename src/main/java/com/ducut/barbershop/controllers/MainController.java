@@ -329,52 +329,13 @@ public class MainController {
 
     @RequestMapping("/auth/login")
     public String login(Model model) {
-        return "login";
+        return "log";
     }
-
- /*   @RequestMapping("/auth/register")
-    public String register(Model model)
-    {
-        return "register";
-    }*/
-
-
-  /*  @GetMapping("/register")
-    public String getRegisterForm(Model model)
-    {
-        RegisterDto user = new RegisterDto();
-        model.addAttribute("user",user);
-        return "register";
-    }
-
-    @PostMapping("/register/save")
-    public String register(@Valid @ModelAttribute("user")RegisterDto user,
-                           BindingResult result, Model model) {
-        UserEntity existingUserUsername = userRepository.findUserByUsername(user.getUsername());
-        if (existingUserUsername != null && existingUserUsername.getUsername() != null && !existingUserUsername.getUsername().isEmpty()) {
-            return "redirect:/register?fail";
-        }
-        if (result.hasErrors())
-        {
-            model.addAttribute("user", user);
-            return "register";
-        }
-
-        return "redirect:/success";
-    }*/
 
     @GetMapping("/admin/panel")
     public String adminPanel(Model model) {
         return "about-main";
     }
-
-
-    /*@GetMapping(value = "/workss")
-    public String index(@AuthenticationPrincipal UserEntity principal, Model model) {
-        String username = principal.getUsername();
-        model.addAttribute("user", username);
-        return "work-main";
-    }*/
 
     @GetMapping("/myorders")
     public String test(@AuthenticationPrincipal UserDetails loggedUser, Model model) {

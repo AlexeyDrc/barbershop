@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Login V1</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+  <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+  <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+  <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+  <link rel="stylesheet" th:href="@{/loginpage/main.css}" />
+</head>
+<body>
+<div class="container" id="container">
+  <!--<div class="form-container sign-up-container">
+    <form action="#">
+      <h1>Create Account</h1>
+      <div class="social-container">
+        <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+        <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+      <span>or use your email for registration</span>
+      <input type="text" placeholder="Name" />
+      <input type="email" placeholder="Email" />
+      <input type="password" placeholder="Password" />
+      <button>Sign Up</button>
+    </form>
+  </div>-->
+  <div class="form-container sign-in-container">
+    <form class="signup" th:action="@{/login}" method="post">
+      <h1>Вход в аккаунт</h1>
+      <div th:if="${param.error}">
+        <p>Неправильный пароль или логин</p>
+      </div>
+      <div class="form-group"><input type="text" id="username"  name="username" class="form-control" placeholder="Логин" required></div>
+      <div class="form-group"><input type="password" id="password" name="password" class="form-control" placeholder="Пароль" required></div>
+      <button>Войти</button>
+    </form>
+  </div>
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-right">
+        <h1>Или вы можете зарегистрировать аккаунт!</h1>
+        <p>Зарегистрированные пользователи получаёт скидку в 50% на каждый 10 заказ!</p>
+
+        <a href="/register" class="ghost" id="signUp">Создать аккаунт</a>
+      </div>
+    </div>
+  </div>
+</div>
+<a href="/">На главную</a>
+
+</body>
+</html>
