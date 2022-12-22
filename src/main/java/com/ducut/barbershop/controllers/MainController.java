@@ -45,9 +45,11 @@ public class MainController {
     @Autowired
     private UserRepository userRepository;
     private UserService userService;
+
     public MainController(UserService userService) {
         this.userService = userService;
     }
+
     int sortOperation = 0;
 
 
@@ -131,8 +133,7 @@ public class MainController {
     }
 
     @GetMapping("/admin/master/delete/details/{master}")
-    public String mastersDeleteFinal(@PathVariable(value = "master") long id, Model model)
-    {
+    public String mastersDeleteFinal(@PathVariable(value = "master") long id, Model model) {
         Iterable<Orders> orders = ordersRepository.findAll();
         Iterable<MastersReviews> reviews = mastersReviewsRepository.findAll();
         Iterable<UserEntity> users = userRepository.findAll();
@@ -140,26 +141,20 @@ public class MainController {
         Optional<Masters> m = mastersRepository.findById(id);
         Masters master = m.get();
 
-        for (Orders order: orders)
-        {
-            if (order.getMasterId() == master.getId())
-            {
+        for (Orders order : orders) {
+            if (order.getMasterId() == master.getId()) {
                 ordersRepository.delete(order);
             }
         }
 
-        for (MastersReviews review: reviews)
-        {
-            if (review.getMasterId() == master.getId())
-            {
+        for (MastersReviews review : reviews) {
+            if (review.getMasterId() == master.getId()) {
                 mastersReviewsRepository.delete(review);
             }
         }
 
-        for (UserEntity user: users)
-        {
-            if (user.getId() == master.getUserId())
-            {
+        for (UserEntity user : users) {
+            if (user.getId() == master.getUserId()) {
                 userRepository.delete(user);
             }
         }
@@ -170,15 +165,25 @@ public class MainController {
     }
 
     @GetMapping("/admin/review/delete")
-    public String reviewsDelete(Model model)
-    {
+    public String reviewsDelete(Model model) {
         Iterable<MastersReviews> mastersReviews = null;
-        switch (sortOperation)
-        {
-            case 0: { mastersReviews = mastersReviewsRepository.findAll(); break; }
-            case 1: { mastersReviews = mastersReviewsRepository.findByDateDESC(); break;}
-            case 2: { mastersReviews = mastersReviewsRepository.findByRateASC(); break; }
-            case 3: { mastersReviews = mastersReviewsRepository.findByMasterASC(); break; }
+        switch (sortOperation) {
+            case 0: {
+                mastersReviews = mastersReviewsRepository.findAll();
+                break;
+            }
+            case 1: {
+                mastersReviews = mastersReviewsRepository.findByDateDESC();
+                break;
+            }
+            case 2: {
+                mastersReviews = mastersReviewsRepository.findByRateASC();
+                break;
+            }
+            case 3: {
+                mastersReviews = mastersReviewsRepository.findByMasterASC();
+                break;
+            }
         }
         model.addAttribute("reviews", mastersReviews);
 
@@ -189,14 +194,13 @@ public class MainController {
     }
 
     @GetMapping("/admin/reviews/{operation}")
-    public String reviewsSort(@PathVariable(value = "operation") int operation,Model model)
-    {
+    public String reviewsSort(@PathVariable(value = "operation") int operation, Model model) {
         sortOperation = operation;
         return "redirect:/admin/review/delete";
     }
+
     @GetMapping("/admin/{reviewId}/{masterId}")
-    public String reviewsDeleting(@PathVariable(value = "reviewId") long reviewId, @PathVariable(value = "masterId") long masterId ,Model model)
-    {
+    public String reviewsDeleting(@PathVariable(value = "reviewId") long reviewId, @PathVariable(value = "masterId") long masterId, Model model) {
 
         Optional<MastersReviews> r = mastersReviewsRepository.findById(reviewId);
         MastersReviews review = r.get();
@@ -204,9 +208,9 @@ public class MainController {
         Optional<Masters> m = mastersRepository.findById(masterId);
         Masters master = m.get();
 
-        double newRate = ((master.getRate()*master.getNumberofratings())-review.getRate())/(master.getNumberofratings()-1);
+        double newRate = ((master.getRate() * master.getNumberofratings()) - review.getRate()) / (master.getNumberofratings() - 1);
         master.setRate(newRate);
-        master.setNumberofratings(master.getNumberofratings()-1);
+        master.setNumberofratings(master.getNumberofratings() - 1);
 
         mastersReviewsRepository.delete(review);
 
@@ -214,36 +218,66 @@ public class MainController {
     }
 
     @GetMapping("/admin/master/add")
-    public String masterAdd(Model model)
-    {
+    public String masterAdd(Model model) {
         RegisterDto user = new RegisterDto();
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "master-add";
     }
 
     @GetMapping("/admin/users")
-    public String adminUsers(Model model)
-    {
+    public String adminUsers(Model model) {
         Iterable<UserEntity> users = userRepository.findAll();
         model.addAttribute("users", users);
+        Iterable<Role> roles = roleRepository.findAll();
+        model.addAttribute("roles", roles);
         return "admin-users";
     }
 
+    @GetMapping("/admin/users/{userId}")
+    public String deleteUser(@PathVariable(value = "userId") long id, Model model) {
+
+        /*Optional<UserEntity> u = userRepository.findById(id);
+        UserEntity user = u.get();*/
+        Iterable<UserEntity> users = userRepository.findAll();
+        Iterable<Customer> customers = customerRepository.findAll();
+        Iterable<Orders> orders = ordersRepository.findAll();
+
+        for (UserEntity user : users) {
+            if (user.getId() == id) {
+                for (Customer customer : customers) {
+                    if (customer.getUserId() == user.getId()) {
+                        for (Orders order : orders) {
+                            if (order.getCustomerId() == customer.getId()) {
+                                ordersRepository.delete(order);
+                            }
+                        }
+                        customerRepository.delete(customer);
+                    }
+                }
+                userRepository.delete(user);
+            }
+        }
+
+
+        //userRepository.delete(user);
+
+        return "redirect:/admin/users";
+    }
+
     @PostMapping("/admin/master/add")
-    public String masterAdd(@Valid @ModelAttribute("user")RegisterDto user,
-                           BindingResult result, @RequestParam String name, @RequestParam String photoURL, @RequestParam Number workingDays, Model model) {
+    public String masterAdd(@Valid @ModelAttribute("user") RegisterDto user,
+                            BindingResult result, @RequestParam String name, @RequestParam String photoURL, @RequestParam Number workingDays, Model model) {
         UserEntity existingUserUsername = userService.findUserByUsername(user.getUsername());
         if (existingUserUsername != null && existingUserUsername.getUsername() != null && !existingUserUsername.getUsername().isEmpty()) {
             return "redirect:/admin/master/add?fail";
         }
-        if (result.hasErrors())
-        {
+        if (result.hasErrors()) {
             model.addAttribute("user", user);
             return "master-add";
         }
         userService.saveMaster(user);
         UserEntity user1 = userRepository.findUserByUsername(user.getUsername());
-        Masters m = new Masters(name,0,photoURL,0, workingDays.intValue(), user1.getId());
+        Masters m = new Masters(name, 0, photoURL, 0, workingDays.intValue(), user1.getId());
         mastersRepository.save(m);
         return "redirect:/masters";
 
@@ -294,8 +328,7 @@ public class MainController {
 
 
     @RequestMapping("/auth/login")
-    public String login(Model model)
-    {
+    public String login(Model model) {
         return "login";
     }
 
@@ -331,8 +364,7 @@ public class MainController {
     }*/
 
     @GetMapping("/admin/panel")
-    public String adminPanel(Model model)
-    {
+    public String adminPanel(Model model) {
         return "about-main";
     }
 
@@ -345,8 +377,7 @@ public class MainController {
     }*/
 
     @GetMapping("/myorders")
-    public String test(@AuthenticationPrincipal UserDetails loggedUser, Model model)
-    {
+    public String test(@AuthenticationPrincipal UserDetails loggedUser, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = loggedUser.getUsername();
         Optional<UserEntity> users = userRepository.findByUsername(currentPrincipalName);
@@ -378,11 +409,9 @@ public class MainController {
     }
 
 
-    private UserEntity getPrincipal()
-    {
+    private UserEntity getPrincipal() {
         UserEntity userEntity = null;
-        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof UserEntity)
-        {
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof UserEntity) {
             userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         }
         return userEntity;
