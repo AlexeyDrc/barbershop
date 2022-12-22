@@ -19,41 +19,9 @@
 </head>
 <body>
 <header th:insert="blocks/header :: header"></header>
+
+
 <!--
-<div class="container mt-3">
-<div class="card p-3 text-center">
-    <div class="d-flex flex-row justify-content-center mb-3">
-        <div class="image"> <img src="https://i.imgur.com/hczKIze.jpg" class="rounded-circle"> <span><i class='bx bxs-camera-plus'></i></span> </div>
-        <div class="d-flex flex-column ms-3 user-details">
-            <h4 class="mb-0">Zenda Grace</h4>
-            <div class="ratings"> <span>4.0</span> <i class='bx bx-star ms-1'></i> </div> <span>Pro Member</span>
-        </div>
-    </div>
-    <h4>Edit Profile</h4>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="inputs"> <label>Name</label> <input class="form-control" type="text" placeholder="Name"> </div>
-        </div>
-        <div class="col-md-6">
-            <div class="inputs"> <label>Email</label> <input class="form-control" type="text" placeholder="Email"> </div>
-        </div>
-        <div class="col-md-6">
-            <div class="inputs"> <label>City</label> <input class="form-control" type="text" placeholder="City"> </div>
-        </div>
-        <div class="col-md-6">
-            <div class="inputs"> <label>Country</label> <input class="form-control" type="text" placeholder="Country"> </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="about-inputs"> <label>About</label> <textarea class="form-control" type="text" placeholder="Tell us about yourself"> </textarea> </div>
-        </div>
-    </div>
-    <div class="mt-3 gap-2 d-flex justify-content-end"> <button class="px-3 btn btn-sm btn-outline-primary">Cancel</button> <button class="px-3 btn btn-sm btn-primary">Save</button> </div>
-</div>
-</div>-->
-
-
 <section class="py-5 text-center container">
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
@@ -106,43 +74,6 @@
     <a class="btn btn-outline-primary message" href="/logout">Выйти</a>
 
     <div sec:authorize="hasAuthority('ROLE_USER')">
-        <!-- <p class="py-2 text-muted">Ваши записи</p>
-         <div th:each="customer : ${customers}" th:if="${customer.userId} == ${user.id}">
-             <div th:each="order : ${orders}" th:if="${order.customerId} == ${customer.id}">
-                 <div th:each="service : ${services}" th:if="${order.serviceTypeId} == ${service.id}">
-                     <div th:text="${service.service_name} + ' - ' + ${service.service_price} + ' BYN'"></div>
-                 </div>
-             </div>
-         </div>-->
-
-        <!--<div th:each="customer : ${customers}" th:if="${customer.userId} == ${user.id}">
-            <div th:each="order : ${orders}" th:if="${order.customerId} == ${customer.id}">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12 d-flex justify-content-center right-bck">
-                            <div class="registration-right">
-                                <div class="event-list">
-                                    <div class="card-body">
-                                        <h4 class="card-title h5 h4-sm"><i class="fas fa-caret-right"aria-hidden="true"></i><span th:text="${order.date}"></span><i
-                                                class="fas fa-caret-right" aria-hidden="true"></i>
-                                            <div th:each="time : ${times}" th:if="${order.time} == ${time.id}">
-                                            <span th:text="${time.time}"></span>
-                                            </div>
-                                        </h4>
-                                        <div th:each="service : ${services}" th:if="${order.serviceTypeId} == ${service.id}">
-                                        <p class="card-text"  th:text="'Услуга: ' + ${service.service_name}"></p>
-                                        <p class="card-text"  th:text="'Цена: ' + ${service.service_price} + ' BYN'"></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    -->
-
         <div class="container">
             <div class="table-responsive">
                 <table class="table text-center">
@@ -194,6 +125,140 @@
 </div>
 </div>
 </div>
+</div>-->
+
+
+<div th:each="user: ${users}">
+    <section style="background-color: #eee;">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col">
+                    <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                        <ol class="breadcrumb mb-0">
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                 alt="avatar"
+                                 class="rounded-circle img-fluid" style="width: 150px;">
+                            <div sec:authorize="hasAuthority('ROLE_MASTER')">
+                                <div th:each="master : ${masters}">
+                                    <div th:if="${master.userId} == ${user.id}">
+                                        <h5 class="my-3" th:text="${master.fio}"></h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div sec:authorize="hasAuthority('ROLE_USER')">
+                                <div th:each="customer : ${customers}">
+                                    <div th:if="${customer.userId} == ${user.id}">
+                                        <h5 class="my-3" th:text="${customer.customerName}"></h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a type="button" href="/logout" class="btn btn-primary">Выйти</a>
+                                <div sec:authorize="hasAuthority('ROLE_MASTER')">
+                                    <a href="/myorders" class="btn btn-outline-primary">Ваши заказы</a>
+                                </div>
+                                <div sec:authorize="hasAuthority('ROLE_ADMIN')">
+                                    <a href="/admin" class="btn btn-outline-primary">АДМИН ПАНЕЛЬ</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Логин</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0" th:text="${user.username}"></p>
+                                </div>
+                            </div>
+                            <div sec:authorize="hasAuthority('ROLE_USER')">
+                                <div sec:authorize="hasAuthority('ROLE_USER')">
+                                    <div th:each="customer : ${customers}">
+                                        <div th:if="${customer.userId} == ${user.id}">
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <p class="mb-0">Номер телефона</p>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <p class="text-muted mb-0" th:text="${customer.phoneNumber}"></p>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <p class="mb-0">Количество выполненных заказов</p>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <p class="text-muted mb-0" th:text="${customer.completedOrders} + '/10 (Каждый 10 заказ - скидка 50% на любую услугу)'"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div sec:authorize="hasAuthority('ROLE_USER')">
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table text-center">
+                        <thead>
+                        <tr>
+                            <th>Мастер</th>
+                            <th>Дата</th>
+                            <th>Время</th>
+                            <th>Услуга</th>
+                            <th>Цена</th>
+                            <th>Статус</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <div th:each="customer : ${customers}" th:if="${customer.userId} == ${user.id}">
+                            <tr th:each="order : ${orders}" th:if="${order.customerId} == ${customer.id}">
+                                <div th:each="master: ${masters}" th:if="${master.id} == ${order.masterId}">
+                                    <td th:text="${master.FIO}"></td>
+                                </div>
+                                <td th:text="${order.date}"></td>
+                                <div th:each="time : ${times}" th:if="${order.time} == ${time.id}">
+                                    <td th:text="${time.time}"></td>
+                                </div>
+                                <div th:each="service : ${services}" th:if="${order.serviceTypeId} == ${service.id}">
+                                    <td th:text="${service.service_name}"></td>
+                                    <td th:if="${order.withDiscount}  == 0"
+                                        th:text="${service.service_price} + ' BYN '"></td>
+                                    <td th:if="${order.withDiscount}  == 1"
+                                        th:text="${service.service_price*0.5} + ' BYN (Скидка 50%)'"></td>
+                                </div>
+
+                                <td>
+                                    <div class="btn btn-success" th:if="${order.status} == 1">Выполнен</div>
+                                    <div class="btn btn-warning" th:if="${order.status} == 0">Запись создана</div>
+                                </td>
+                            </tr>
+                        </div>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </section>
 </div>
 
 </body>

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Продукция</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+  <script src="https://kit.fontawesome.com/3fcaabb491.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" th:href="@{/cardStyle.css}"/>
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+
+
+<section class="py-5 text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">Редактирование продукции</h1>
+    </div>
+  </div>
+</section>
+
+<div class="container mt-0">
+  <div class="album py-0 bg-light">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+        <form th:action="'/products/edit/'+${productId}" method="post">
+        <div th:each="product : ${products}">
+          <div class="card">
+            <img class="card-img-top" th:src="${product.photoURL}" alt="Card image cap">
+            <div class="card-body">
+              <input type="text" class="card-title" name="name" th:value="${product.name}">
+              <input type="number" class="card-title" name="price" th:value="${product.price}">
+              <hr>
+              <button type="submit" class="btn btn-success">Сохранить</button>
+            </div>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -42,7 +42,7 @@
                             <!--<a th:if="${el.numberofratings} > 0"  th:href="'/masters/' + ${el.id}" class="HovBSilver"><span class="HovBSpan" th:text=" 'Посмотреть отзывы (' + ${el.numberofratings} + ')'"></span></a>
                             <a th:if="${el.numberofratings} == 0"  class="HovB"><span class="HovBSpan"  th:text="'Пока нет отзывов'"></span></a>-->
                             <a th:if="${el.numberofratings} > 0" th:href="'/masters/' + ${el.id}" class="btn btn-outline-secondary btn-sm mt-1" th:text=" 'Посмотреть отзывы (' + ${el.numberofratings} + ')'"></a>
-                            <a th:if="${el.numberofratings} == 0" class="btn btn-outline-secondary btn-sm disabled mt-1" th:text="'Пока нет отзывов'"></a>
+                            <a th:if="${el.numberofratings} == 0" th:href="'/masters/' + ${el.id}" class="btn btn-outline-secondary btn-sm mt-1" th:text="'Пока нет отзывов'"></a>
                         </div>
                     </div>
                 </div>

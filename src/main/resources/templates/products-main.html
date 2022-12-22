@@ -14,21 +14,7 @@
 <section class="py-5 text-center container">
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">Наши мастера!<!doctype html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport"
-                          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-                    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-                    <title>Document</title>
-                </head>
-                <body>
-                </body>
-                </html>
-            </h1>
-            <p class="lead text-muted">Здесь представлены все мастера, которые работают в нашем барбершопе! Каждый из
-                них - настоящий профессионал своего дела</p>
+            <h1 class="fw-light">Наша продукция!</h1>
         </div>
     </div>
 </section>
@@ -37,18 +23,15 @@
     <div class="album py-0 bg-light">
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-                <div th:each="el : ${masters}">
+                <div th:each="product : ${products}">
                     <div class="card">
-                        <img class="card-img-top" th:src="${el.photoURL}" alt="Card image cap">
+                        <img class="card-img-top" th:src="${product.photoURL}" alt="Card image cap">
                         <div class="card-body">
-                            <h4 class="card-title" th:text="${el.FIO}"></h4>
-                            <p class="card-text" th:text=" 'Рейтинг ' + ${el.rate} + '/5.0'"></p>
-                            <a th:href="'/orders/add/details/' + ${el.id}" class="btn btn-primary">Записаться к этому мастеру</a><br>
-                            <a th:if="${el.numberofratings} > 0" th:href="'/masters/' + ${el.id}"
-                               class="btn btn-outline-secondary btn-sm active mt-1"
-                               th:text=" 'Посмотреть отзывы (' + ${el.numberofratings} + ')'"></a>
-                            <a th:if="${el.numberofratings} == 0" class="btn btn-outline-secondary btn-sm disabled mt-1"
-                               th:text="'Пока нет отзывов'"></a>
+                            <h6 class="card-title" th:text="${product.name}"></h6>
+                            <h6 class="card-title" th:text="${product.price} + ' BYN'"></h6>
+                            <div sec:authorize="hasAuthority('ROLE_ADMIN')" class="">
+                                <a class="btn btn-info" th:href="'/products/edit/' + ${product.id}" >Редактировать</a>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests().antMatchers("/css/**", "/js/**", "/images/**").permitAll()
                 .and()
-                .authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
+                .authorizeRequests().antMatchers("/admin/**", "/products/**").hasRole("ADMIN")
                 .and()
                 .authorizeRequests().antMatchers("/myorders/**").hasRole("MASTER")
                 .and()

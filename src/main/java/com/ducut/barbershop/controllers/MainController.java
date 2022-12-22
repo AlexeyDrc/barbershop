@@ -208,9 +208,15 @@ public class MainController {
         Optional<Masters> m = mastersRepository.findById(masterId);
         Masters master = m.get();
 
-        double newRate = ((master.getRate() * master.getNumberofratings()) - review.getRate()) / (master.getNumberofratings() - 1);
-        master.setRate(newRate);
-        master.setNumberofratings(master.getNumberofratings() - 1);
+        if (master.getNumberofratings() != 1) {
+            double newRate = ((master.getRate() * master.getNumberofratings()) - review.getRate()) / (master.getNumberofratings() - 1);
+            master.setRate(newRate);
+            master.setNumberofratings(master.getNumberofratings() - 1);
+        }
+        else {
+            master.setRate(0);
+            master.setNumberofratings(0);
+        }
 
         mastersReviewsRepository.delete(review);
 
